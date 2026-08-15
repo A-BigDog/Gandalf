@@ -30,8 +30,8 @@ body {
     radial-gradient(1.8px 1.8px at 12% 74%, rgba(255, 244, 210, 0.8), transparent 70%),
     radial-gradient(2.4px 2.4px at 48% 88%, rgba(255, 250, 225, 0.7), transparent 70%),
     radial-gradient(1.3px 1.3px at 92% 80%, rgba(255, 244, 210, 0.75), transparent 70%),
-    radial-gradient(900px 600px at 6% 108%, rgba(30, 40, 70, 0.35), transparent 60%),
-    linear-gradient(rgba(8, 11, 20, 0.36), rgba(8, 11, 20, 0.36)),
+    radial-gradient(900px 600px at 6% 108%, rgba(30, 40, 70, 0.30), transparent 60%),
+    linear-gradient(rgba(8, 11, 20, 0.16), rgba(8, 11, 20, 0.16)),
     url(${BG_IMAGE}) center/cover no-repeat fixed !important;
 }
 

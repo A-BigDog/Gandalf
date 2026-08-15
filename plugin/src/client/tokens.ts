@@ -11,9 +11,9 @@ import type { ThemeTokens } from '@deepseek-ai/dsh-client-ui-theme/client'
 /** Night-sky star-gold Gandalf palette, keyed by --dsw-alias-* names. */
 export const GANDALF_TOKENS: ThemeTokens = {
   // ---- Surfaces (night-sky blue-black, translucent so the starfield shows through) ----
-  '--dsw-alias-bg-base': 'rgba(8, 11, 20, 0.55)',
-  '--dsw-alias-bg-layer-1': 'rgba(13, 18, 32, 0.58)',
-  '--dsw-alias-bg-layer-2': 'rgba(18, 25, 42, 0.56)',
+  '--dsw-alias-bg-base': 'rgba(8, 11, 20, 0.62)',
+  '--dsw-alias-bg-layer-1': 'rgba(13, 18, 32, 0.64)',
+  '--dsw-alias-bg-layer-2': 'rgba(18, 25, 42, 0.62)',
   '--dsw-alias-bg-layer-3': 'rgba(24, 33, 56, 0.54)',
   '--dsw-alias-bg-overlay': '#253149',
   '--dsw-alias-bg-module-platform': 'rgba(15, 21, 38, 0.58)',
@@ -97,7 +97,7 @@ export const GANDALF_TOKENS: ThemeTokens = {
   '--dsw-specific-login-input': 'rgba(15, 21, 38, 0.84)',
   '--dsw-specific-menu': '#1a2338',
   '--dsw-specific-selector': 'rgba(20, 28, 50, 0.76)',
-  '--dsw-specific-sidebar-fill': 'rgba(6, 9, 18, 0.66)',
+  '--dsw-specific-sidebar-fill': 'rgba(6, 9, 18, 0.74)',
   '--dsw-specific-sidebar-nav-item-active': 'rgba(20, 28, 50, 0.72)',
   '--dsw-specific-sidebar-nav-item-active-accent': '#e8c877',
   '--dsw-specific-sidebar-nav-item-hover': 'rgba(13, 18, 32, 0.74)',

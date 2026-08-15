@@ -20,7 +20,7 @@ window.__ModuleLoader__.load({
 			"--dsw-specific-login-input": "rgba(44, 44, 46, 0.85)",
 			"--dsw-specific-menu": "rgba(67, 69, 74, 0.92)",
 			"--dsw-specific-selector": "rgba(44, 44, 46, 0.55)",
-			"--dsw-specific-sidebar-fill": "rgba(27, 27, 28, 0.30)",
+			"--dsw-specific-sidebar-fill": "rgba(27, 27, 28, 0.50)",
 			"--dsw-specific-sidebar-nav-item-active": "rgba(67, 69, 74, 0.55)",
 			"--dsw-specific-sidebar-nav-item-hover": "rgba(44, 44, 46, 0.50)",
 			"--dsw-specific-tip": "rgba(44, 44, 46, 0.55)",

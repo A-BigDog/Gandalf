@@ -28,7 +28,7 @@ export const GANDALF_TOKENS: ThemeTokens = {
   '--dsw-specific-selector': 'rgba(44, 44, 46, 0.55)',
 
   // ---- Sidebar (nav readability) ----
-  '--dsw-specific-sidebar-fill': 'rgba(27, 27, 28, 0.30)',
+  '--dsw-specific-sidebar-fill': 'rgba(27, 27, 28, 0.50)',
   '--dsw-specific-sidebar-nav-item-active': 'rgba(67, 69, 74, 0.55)',
   '--dsw-specific-sidebar-nav-item-hover': 'rgba(44, 44, 46, 0.50)',
   '--dsw-specific-tip': 'rgba(44, 44, 46, 0.55)',

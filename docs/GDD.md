@@ -14,12 +14,32 @@
 - 发布形态：开源仓库（README + 安装/构建说明），远期可考虑提交 DSH 上游做官方主题
 - 变现：无（个人项目，开源免费）
 
-## 3. 技术方案（待调研补全）
+## 3. 技术方案（已调研核实 ✅）
 
-- [ ] DSH 主题机制：CSS 变量？类切换？（来源：调研报告）
-- [ ] 插件注册方式与目录位置
-- [ ] 构建/热更新流程（dev:web watcher vs 生产构建）
-- [ ] 背景图打包/加载方式（本地文件 vs CDN）
+> 来源：DSH 源码/文档一手核实（docs/web-styling.md、docs/subsystems/client-modules.md、docs/user/develop/basic/index.md、packages/client/ui-theme）
+
+### 3.1 机制结论（已确认）
+- DSH Web 有官方主题系统：`ui-theme` 包提供 `ctx.theme`（ThemeRuntime），`--dsw-*` token 体系（静态色板 `--dsw-static-*` + 语义别名 `--dsw-alias-*` + 排版 `--dsw-font-*`），明暗双 palette
+- 第三方主题注册 API：`ctx.theme.register({ id, colorScheme, tokens })`（别名层覆盖，内联到 body）
+- token 叠层 API：`ctx.theme.overrideTokens(source, {token: {light, dark}})`（必须成对给双模式值）
+- 主题偏好：内置 light/dark/system 持久化到 settings；第三方 id 为进程内扩展（刷新后回退，可接受）
+- 插件加载：`dsh.client` 声明 + `exports["./client"]` + tsdown 构建；用户级 `pnpm dsh web --patch ./cordis.yml` 免改仓库
+- 开发热更：`pnpm run dev:web` watcher（HMR），生产 `dsh web` 重启生效
+
+### 3.2 Gandalf 插件架构（三件套）
+1. **主题注册**：`register({ id:'gandalf', colorScheme:'dark', tokens:{ '--dsw-alias-bg-base':'#1a1612', ... } })` —— 换肤主体
+2. **样式注入层**：插件浏览器端注入 `<style>`：背景图（base64 内联 ≤300KB）+ Cinzel `@font-face` + 装饰细节（气泡边框/侧边栏质感/符文 SVG）
+3. **生效**：加载时 `setTheme('gandalf')` 自动启用（自用 v1）；后续可扩展 overrideTokens 常驻
+
+### 3.3 约束红线
+- token 只覆盖 `--dsw-alias-*` 别名层，不写死静态色值
+- overrideTokens 每 token 必须给 light+dark 成对值
+- 不动 ui-theme 源码、不改布局结构；字体/背景走插件自己的 CSS 注入
+- 插件 bundle 单文件（tsdown），图片 base64 内联保证离线可用
+
+### 3.4 验证路径
+- 开发：dev:web watcher 热更 → 截图验证
+- 验收：视觉评审（Qwen-VL）+ 对比度检查（WCAG AA）+ 明暗双模式
 
 ## 4. 范围（MVP 边界）
 
@@ -36,19 +56,18 @@
 
 ## 5. 视觉数值表（改表不改代码）
 
-### 5.1 配色（暗夜金褐）
+### 5.1 配色（夜空星金 —— 2026-08-14 用户拍板：暗夜金褐 → 夜空星金，与星空背景融合）
 | token | 色值 | 用途 |
 |---|---|---|
-| --bg-base | #1a1612 | 全局底色（深棕黑） |
-| --bg-panel | #241d15 | 面板/卡片 |
-| --bg-elevated | #2e2518 | 悬浮/输入区 |
-| --accent-gold | #c9a35c | 强调色（甘道夫金） |
-| --accent-glow | #e8c887 | 高亮/悬浮 |
-| --star-blue | #7fa6c9 | 星光蓝点缀（链接/次要信息） |
-| --text-primary | #e8ddc8 | 正文（羊皮纸白） |
-| --text-secondary | #a89b80 | 次要文字 |
-| --border | #4a3d2a | 边框 |
-| --danger | #c96a5c | 错误/危险（保持对比度） |
+| --bg-base | #0e1320 | 全局底色（夜空蓝黑） |
+| --bg-panel | #141b2c | 面板/卡片 |
+| --bg-elevated | #1a2338 | 悬浮/输入区 |
+| --accent-gold | #e8c877 | 强调色（星光金） |
+| --accent-glow | #f2d992 | 高亮/悬浮 |
+| --text-primary | #e6dfce | 正文（羊皮纸白） |
+| --text-secondary | #a9b1c4 | 次要文字（蓝灰） |
+| --border | rgba(232,200,119,.24) | 边框（鎏金） |
+| --danger | #e08a7a | 错误/危险（暖红） |
 
 ### 5.2 字体
 | 用途 | 字体 | 许可 |
@@ -57,13 +76,14 @@
 | 正文 | Noto Sans SC / 可读无衬线（待确认） | OFL |
 
 ### 5.3 质感
-- 背景：暗夜奇幻风景 + 多层深色遮罩（保证正文对比度 ≥4.5:1）
-- 边框：金褐描边、圆角柔和、局部符文/藤蔓装饰 SVG
-- 聊天气泡：羊皮纸渐变 + 金褐描边
+- 背景：OGA CC0 无缝星空（3000×1500 实测，base64 内联 ≤300KB）+ 蓝黑遮罩（0.88）+ 金色星光光晕
+- 字体：Cinzel 标题（OFL 自托管 base64）+ Noto Sans SC 正文（OFL，后续接）
+- 边框：鎏金描边、圆角柔和、局部金色分隔线/星辉
+- 聊天气泡：夜蓝面板 + 金褐描边
 
 ## 6. 可读性红线（开发工具铁律）
-- 正文对比度 ≥ 4.5:1（WCAG AA）
-- 背景图透明度 ≤ 12%，且输入区/代码区近纯色底
+- 正文对比度 ≥ 4.5:1（WCAG AA）——实测：正文 13.96:1、金色 11.83:1、按钮 11.58:1 ✅
+- 背景图遮罩 0.88，输入区/代码区近纯色底
 - 代码/文字区域不允许花哨字体，只允许标题花哨
 
 ## 7. UI 风格方向

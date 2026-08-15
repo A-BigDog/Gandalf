@@ -14,8 +14,23 @@ window.PROJECT_DATA = {
   },
   progressPct: null,              // 留 null = 仪表盘按工单自动计算
 
-  tickets: [                      // 工单（第 2 步拆解后填充）
-    { id: "T1", title: "（待拆解）DSH 主题机制调研落地", status: "todo",
+  tickets: [                      // 工单（MVP 拆解结果）
+    { id: "T1", title: "插件骨架 + gandalf 主题注册（换肤核心）", status: "done",
+      owner: "ai",                // 我做主体，你验收
+      skills: ["research", "tdd"] },
+    { id: "T2", title: "背景图 + Cinzel 字体接入（深色遮罩保可读）", status: "todo",
+      owner: "both",              // 素材需你最终点头
+      skills: ["ui-ux-pro-max", "design-taste-frontend"] },
+    { id: "T3", title: "布局定制：侧边栏/聊天气泡/输入区/符文装饰", status: "todo",
+      owner: "ai",
+      skills: ["design-taste-frontend"] },
+    { id: "T4", title: "可读性验收：WCAG AA 对比度 + 明暗双模式", status: "todo",
+      owner: "ai",
+      skills: ["tdd"] },
+    { id: "T5", title: "视觉评审闭环：截图 → Qwen-VL 评审 → 差距清零", status: "todo",
+      owner: "ai",
+      skills: ["ui-ux-pro-max"] },
+    { id: "T6", title: "打包 + README + 素材许可清单 + 开源", status: "todo",
       owner: "both",
       skills: ["research"] }
   ],

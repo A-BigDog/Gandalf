@@ -52,3 +52,17 @@
 - **发现方式**：用户多次"回退/改错了"反馈。
 - **修复**：后期改为"先问清楚 + headless 定位 + 小步验证"；用户确认需求（消息内容靠左、气泡区分、图标风格）后再改。
 - **防复发**：任何涉及"哪个区域/什么效果"的需求，先确认目标元素和预期，再动代码。
+
+### 8. 选择框背景 token 用错（bg-overlay vs input-major）
+- **现象**：用户反馈选择框（AskUserQuestion 弹窗）太透，改了 bg-overlay 却无效果。
+- **根因**：QuestionComposer 的弹窗卡片背景用的是 `--dsw-specific-input-major`（不是 bg-overlay；bg-overlay 是更外层/其他元素）。
+- **发现方式**：读 ui-user-questions 源码（QuestionComposer.module.css L24）。
+- **修复**：加深 `--dsw-specific-input-major`（0.76 → 0.92，同设置面板）。
+- **防复发**：定位组件背景先读源码确认用的哪个 token，别猜。
+
+### 9. 宽泛 `[class*='primary']` 误伤选择框提交按钮
+- **现象**：五芒星替换（`[class*='primary'] svg` + `::after`）作用到选择框提交按钮——文字被五芒星盖住（看不清+重叠）。
+- **根因**：提交按钮也是 `variant="primary"`（ui-primitives Button），类名含 `_primary_xxx`——宽泛属性选择器命中。
+- **发现方式**：用户反馈提交按钮看不清/重叠 + DevTools 拿到按钮类名（`_primary_kz6gm_38`）。
+- **修复**：五芒星规则限定 `[class*='composer'] [class*='primary']`（只作用于发送按钮）；选择框提交按钮恢复 DSH 默认。
+- **防复发**：组件级样式覆盖必须限定容器；同类 variant 组件（primary/outline）在不同界面复用，选择器宁精准勿宽泛。

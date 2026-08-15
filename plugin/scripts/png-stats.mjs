@@ -76,7 +76,7 @@ const N = width * height
 const freq = new Map()
 let brightSum = 0, minLum = 1, maxLum = 0
 const buckets = new Array(10).fill(0)
-const gold = [0xe8, 0xc8, 0x77]
+const gold = [0xe8, 0xb0, 0x4c]
 let goldNear = 0, darkPct = 0, lightPct = 0
 
 const key = (r, g, b) => ((r >> 4) << 8) | ((g >> 4) << 4) | (b >> 4) // 4-bit quantize for top colors

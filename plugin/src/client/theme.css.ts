@@ -10,28 +10,27 @@ import { BG_IMAGE, CINZEL_A, CINZEL_B } from './assets.generated.ts'
 
 export const GANDALF_CSS = `
 /* ---- Base fallback (keeps the page from showing the UA white when the
-   body surface turns translucent so the starfield shows through) ---- */
+   body surface turns translucent so the sunrise scene shows through) ---- */
 html {
-  background-color: #0a0e18;
+  background-color: #1d120b;
 }
 
-/* ---- Starry-night backdrop on the body itself (single-layer attenuation:
-   translucent surfaces above reveal it without stacking a second fade).
-   Programmatic golden star-sparkles guarantee visible stars even where the
-   base art is dim. ---- */
+/* ---- Dawn backdrop on the body itself (single-layer attenuation:
+   translucent surfaces above reveal the sepia-warmed Gandalf sunrise scene).
+   Golden star-sparkles keep the starry-dawn mood. ---- */
 body {
   background:
-    radial-gradient(1100px 640px at 72% -12%, rgba(232, 200, 119, 0.10), transparent 62%),
-    radial-gradient(1.6px 1.6px at 18% 22%, rgba(255, 244, 210, 0.95), transparent 70%),
-    radial-gradient(2.2px 2.2px at 62% 9%, rgba(255, 250, 225, 0.9), transparent 70%),
-    radial-gradient(1.4px 1.4px at 84% 30%, rgba(255, 244, 210, 0.85), transparent 70%),
-    radial-gradient(2px 2px at 38% 45%, rgba(255, 246, 215, 0.8), transparent 70%),
-    radial-gradient(1.5px 1.5px at 72% 58%, rgba(255, 248, 220, 0.75), transparent 70%),
-    radial-gradient(1.8px 1.8px at 12% 74%, rgba(255, 244, 210, 0.8), transparent 70%),
-    radial-gradient(2.4px 2.4px at 48% 88%, rgba(255, 250, 225, 0.7), transparent 70%),
-    radial-gradient(1.3px 1.3px at 92% 80%, rgba(255, 244, 210, 0.75), transparent 70%),
-    radial-gradient(900px 600px at 6% 108%, rgba(30, 40, 70, 0.30), transparent 60%),
-    linear-gradient(rgba(8, 11, 20, 0.16), rgba(8, 11, 20, 0.16)),
+    radial-gradient(1100px 640px at 72% -12%, rgba(232, 176, 76, 0.12), transparent 62%),
+    radial-gradient(1.6px 1.6px at 18% 22%, rgba(255, 238, 205, 0.95), transparent 70%),
+    radial-gradient(2.2px 2.2px at 62% 9%, rgba(255, 244, 215, 0.9), transparent 70%),
+    radial-gradient(1.4px 1.4px at 84% 30%, rgba(255, 238, 205, 0.85), transparent 70%),
+    radial-gradient(2px 2px at 38% 45%, rgba(255, 240, 210, 0.8), transparent 70%),
+    radial-gradient(1.5px 1.5px at 72% 58%, rgba(255, 242, 215, 0.75), transparent 70%),
+    radial-gradient(1.8px 1.8px at 12% 74%, rgba(255, 238, 205, 0.8), transparent 70%),
+    radial-gradient(2.4px 2.4px at 48% 88%, rgba(255, 244, 215, 0.7), transparent 70%),
+    radial-gradient(1.3px 1.3px at 92% 80%, rgba(255, 238, 205, 0.75), transparent 70%),
+    radial-gradient(900px 600px at 6% 108%, rgba(70, 40, 20, 0.28), transparent 60%),
+    linear-gradient(rgba(26, 15, 8, 0.14), rgba(26, 15, 8, 0.14)),
     url(${BG_IMAGE}) center/cover no-repeat fixed !important;
 }
 
@@ -60,7 +59,7 @@ h1, h2, h3, h4,
 
 /* ---- Gilded focus ring (accessibility: keep visible, warm it up) ---- */
 :focus-visible {
-  outline-color: #e8c877;
+  outline-color: #e8b04c;
   outline-offset: 2px;
 }
 
@@ -98,16 +97,16 @@ h1, h2, h3, h4,
 /* ---- Sidebar nav hover: gilded wash ---- */
 [class*='sidebar'] [class*='nav']:hover,
 [class*='nav-item']:hover {
-  box-shadow: inset 2px 0 0 #e8c877;
+  box-shadow: inset 2px 0 0 #e8b04c;
 }
 
 /* ---- Scrollbar thumb: star-gold ---- */
 *::-webkit-scrollbar-thumb {
-  background: #46536f;
+  background: #7a6440;
   border-radius: 8px;
 }
 *::-webkit-scrollbar-thumb:hover {
-  background: #667390;
+  background: #947e50;
 }
 
 /* ---- Rune divider: hand-drawn SVG runes (self-made, zero copyright) ---- */
@@ -135,3 +134,4 @@ hr, [class*='separator'], [class*='divider'] {
   text-shadow: 0 0 18px rgba(232, 200, 119, 0.35);
 }
 `
+

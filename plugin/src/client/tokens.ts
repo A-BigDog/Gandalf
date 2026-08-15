@@ -11,45 +11,56 @@ import type { ThemeTokens } from '@deepseek-ai/dsh-client-ui-theme/client'
 /** Translucent-surface overrides only; colors mirror the DSH default dark palette. */
 export const GANDALF_TOKENS: ThemeTokens = {
   // ---- Conversation area (most visible backdrop) ----
-  '--dsw-alias-bg-base': 'rgba(21, 21, 23, 0.08)',
-  '--dsw-alias-bg-layer-1': 'rgba(35, 35, 36, 0.10)',
-  '--dsw-alias-bg-layer-2': 'rgba(44, 44, 46, 0.10)',
-  '--dsw-alias-bg-layer-3': 'rgba(53, 54, 56, 0.10)',
-  '--dsw-alias-bg-module-platform': 'rgba(53, 54, 56, 0.12)',
-  '--dsw-alias-bg-multi-select': 'rgba(33, 33, 35, 0.10)',
-  '--dsw-alias-bg-overlay': '#2c2c2e',
+  '--dsw-alias-bg-base': 'rgba(255, 255, 255, 0)',
+  '--dsw-alias-bg-layer-1': 'rgba(255, 255, 255, 0)',
+  '--dsw-alias-bg-layer-2': 'rgba(255, 255, 255, 0)',
+  '--dsw-alias-bg-layer-3': 'rgba(255, 255, 255, 0)',
+  '--dsw-alias-bg-module-platform': 'rgba(255, 255, 255, 0)',
+  '--dsw-alias-bg-multi-select': 'rgba(255, 255, 255, 0)',
+  '--dsw-alias-bg-overlay': '#ffffff',
 
   // ---- Message bubbles (text safety floor) ----
-  '--dsw-specific-bubble': 'rgba(44, 44, 46, 0.50)',
-  '--dsw-specific-bubble-highlight': 'rgba(67, 69, 74, 0.66)',
-  '--dsw-specific-input-major': 'rgba(44, 44, 46, 0.85)',
-  '--dsw-specific-login-input': 'rgba(44, 44, 46, 0.85)',
-  '--dsw-specific-menu': 'rgba(67, 69, 74, 0.92)',
-  '--dsw-specific-selector': 'rgba(44, 44, 46, 0.55)',
+  '--dsw-specific-bubble': 'rgb(255, 255, 255)',
+  '--dsw-specific-bubble-highlight': 'rgba(255, 255, 255, 0.6)',
+  '--dsw-specific-input-major': 'rgb(255, 255, 255)',
+  '--dsw-specific-login-input': 'rgb(255, 255, 255)',
+  '--dsw-specific-menu': 'rgba(255, 255, 255, 0.6)',
+  '--dsw-specific-selector': 'rgba(255, 255, 255, 0.6)',
 
   // ---- Sidebar (nav readability) ----
-  '--dsw-specific-sidebar-fill': 'rgba(27, 27, 28, 0.50)',
-  '--dsw-specific-sidebar-nav-item-active': 'rgba(67, 69, 74, 0.55)',
-  '--dsw-specific-sidebar-nav-item-hover': 'rgba(44, 44, 46, 0.50)',
-  '--dsw-specific-tip': 'rgba(44, 44, 46, 0.55)',
+  '--dsw-specific-sidebar-fill': 'rgb(255, 255, 255)',
+  '--dsw-specific-sidebar-nav-item-active': 'rgba(255, 255, 255, 0.6)',
+  '--dsw-specific-sidebar-nav-item-hover': 'rgba(255, 255, 255, 0.6)',
+  '--dsw-specific-tip': 'rgba(255, 255, 255, 0.6)',
 
   // ---- Text (light-on-dark safety for any color-scheme mode) ----
-  '--dsw-alias-label-primary': '#f9fafb',
-  '--dsw-alias-label-secondary': '#cfd3d6',
-  '--dsw-alias-label-tertiary': '#adb2b8',
-  '--dsw-alias-label-caption': '#adb2b8',
 
   // ---- Global typeface (LXGW WenKai Mono — 霞鹭文楷等宽, OFL, local; Cinzel removed per user) ----
   '--dsw-font-family': "'LXGW WenKai Mono Light', 'LXGW WenKai Mono', '霞鹜文楷等宽 Light', '霞鹭文楷', 'KaiTi', sans-serif",
 
+  '--dsw-alias-separator-primary': '#555555',
   // ---- Code / markdown (near-opaque: readability first) ----
-  '--dsw-alias-markdown-code-block': 'rgba(27, 27, 28, 0.94)',
-  '--dsw-alias-markdown-code-block-banner': 'rgba(44, 44, 46, 0.82)',
-  '--dsw-alias-markdown-inline-code': 'rgba(44, 44, 46, 0.55)',
-  '--dsw-alias-markdown-citation': 'rgba(35, 35, 36, 0.90)',
-  '--dsw-alias-markdown-placeholder': 'rgba(35, 35, 36, 0.90)',
-  '--dsw-alias-markdown-tag': 'rgba(44, 44, 46, 0.55)',
+  '--dsw-alias-markdown-code-block': 'rgba(255, 255, 255, 0.6)',
+  '--dsw-alias-markdown-code-block-banner': 'rgba(255, 255, 255, 0.92)',
+  '--dsw-alias-markdown-inline-code': 'rgba(255, 255, 255, 0.8)',
+  '--dsw-alias-markdown-citation': 'rgba(255, 255, 255, 0.6)',
+  '--dsw-alias-markdown-placeholder': 'rgba(255, 255, 255, 0.6)',
+  '--dsw-alias-markdown-tag': 'rgba(255, 255, 255, 0.7)',
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

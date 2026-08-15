@@ -16,9 +16,9 @@ html {
   background-color: #0d0d0f;
 }
 
-/* 甘道夫朝阳背景：原图直出，无遮罩无染色 */
+/* 甘道夫朝阳背景：cover + 垂直 80% 位置（用户调整） */
 body {
-  background: url(${BG_IMAGE}) center/cover no-repeat fixed !important;
+  background: url(${BG_IMAGE}) center 80%/cover no-repeat fixed !important;
 }
 
 /* ============ 2. 字体 ============ */
@@ -43,8 +43,8 @@ body {
 
 /* AI 消息气泡卡片（你的消息保持 DSH 默认无遮罩） */
 [class*='flowItem'] {
-  background: rgba(44, 44, 46, 0.85) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255) !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
   border-radius: 14px !important;
   padding: 10px 14px !important;
 }
@@ -70,21 +70,21 @@ body {
 /* 新会话按钮：透明底 + 白字 + 细边框 */
 [class*='newSession'] {
   background: transparent !important;
-  color: #f9fafb !important;
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: #111111 !important;
+  border: 1px solid rgba(0, 0, 0, 0.18) !important;
 }
 
 /* 设置面板：深色实底（原来是近透明） */
 [class*='panel'] {
-  background: rgba(44, 44, 46, 0.92) !important;
+  background: rgb(255, 255, 255) !important;
 }
 
 /* 发送按钮（输入区内）：五芒星图标（自制 SVG mask，居中）+ 深色底。
    限定 composer 容器——选择框等其它 primary 按钮保持 DSH 默认。 */
 [class*='composer'] [class*='primary'] {
-  background: rgba(33, 33, 35, 0.92) !important;
-  color: #f9fafb !important;
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  background: rgb(255, 255, 255) !important;
+  color: #111111 !important;
+  border: 1px solid rgba(0, 0, 0, 0.18) !important;
   position: relative !important;
 }
 [class*='composer'] [class*='primary'] svg {
@@ -102,4 +102,11 @@ body {
   -webkit-mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Cpath d='M8 1 L9.8 6.2 L15.2 6.4 L10.9 9.7 L12.4 15 L8 11.6 L3.6 15 L5.1 9.7 L0.8 6.4 L6.2 6.2 Z'/%3E%3C/svg%3E") center/contain no-repeat;
   mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Cpath d='M8 1 L9.8 6.2 L15.2 6.4 L10.9 9.7 L12.4 15 L8 11.6 L3.6 15 L5.1 9.7 L0.8 6.4 L6.2 6.2 Z'/%3E%3C/svg%3E") center/contain no-repeat;
 }
+
 `
+
+
+
+
+
+

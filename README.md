@@ -36,15 +36,15 @@ node tests\smoke.test.mjs                         # 冒烟测试（可选但推�
 
 ```sh
 cd <checkout根>
-pnpm dsh web --patch C:/Me/projects/Gandalf/plugin/cordis.yml
+pnpm dsh web --patch <你的Gandalf仓库绝对路径>/plugin/cordis.yml
 ```
 
-**B. 永久加载**：把以下 insert 行加入 `~/.dsh/profiles/web/cordis.patch.yml`：
+**B. 永久加载**：把以下 insert 行加入 `~/.dsh/profiles/web/cordis.patch.yml`（路径替换为你的仓库绝对路径）：
 
 ```yaml
 - insert:
     - id: gandalf-theme
-      name: 'C:/Me/projects/Gandalf/plugin/lib/index.js'
+      name: '<你的Gandalf仓库绝对路径>/plugin/lib/index.js'
 ```
 
 ### 3. 生效

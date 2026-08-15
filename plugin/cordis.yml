@@ -2,7 +2,8 @@
 #
 # Loads the Gandalf plugin into the DSH Web GUI without touching the repo
 # roster: `pnpm dsh web --patch ./cordis.yml` (from the repo root, or point
-# --patch at this file's absolute path). The plugin path must be absolute.
+# --patch at this file's absolute path). The plugin path must be absolute —
+# replace <YOUR_REPO_ABS_PATH> with the absolute path of this repository.
 - insert:
     - id: gandalf-theme
-      name: 'C:/Me/projects/Gandalf/plugin/lib/index.js'
+      name: '<YOUR_REPO_ABS_PATH>/plugin/lib/index.js'

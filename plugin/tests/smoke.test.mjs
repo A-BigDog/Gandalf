@@ -28,45 +28,27 @@ if (captured.id !== 'gandalf-theme') throw new Error(`SMOKE FAIL: id = ${capture
 // --- Factory: no externals may be required ---
 const moduleExports = captured.factory(() => { throw new Error('factory required an external!') })
 if (moduleExports.name !== 'gandalf-theme') throw new Error(`SMOKE FAIL: name = ${moduleExports.name}`)
-if (!Array.isArray(moduleExports.inject) || !moduleExports.inject.includes('theme')) {
+if (!Array.isArray(moduleExports.inject)) {
   throw new Error(`SMOKE FAIL: inject = ${JSON.stringify(moduleExports.inject)}`)
 }
 
-// --- apply(): register → stylesheet → setTheme → effect cleanup ---
-let registered = null
-let setThemeCalled = null
-const effects = []
+// --- apply(): stylesheet injection (v10: pure-CSS, no theme service) ---
 const styleEl = { id: '', dataset: {}, textContent: '', remove: () => { styleEl.removed = true } }
 globalThis.document = {
   createElement: () => styleEl,
   head: { appendChild: (el) => { el.appended = true } },
   documentElement: {},
 }
-const ctx = {
-  theme: {
-    register: (def) => { registered = def; return () => { registered.disposed = true } },
-    setTheme: (id) => { setThemeCalled = id },
-  },
-  effect: (fn, label) => { effects.push({ fn, label }) },
-}
+const ctx = {}
 
 moduleExports.apply(ctx)
 
-if (registered === null) throw new Error('SMOKE FAIL: theme.register not called')
-if (registered.id !== 'gandalf' || registered.colorScheme !== 'dark') {
-  throw new Error(`SMOKE FAIL: registered = ${JSON.stringify(registered)}`)
-}
-const tokenCount = Object.keys(registered.tokens).length
-if (tokenCount < 20) throw new Error(`SMOKE FAIL: only ${tokenCount} tokens`)
-if (setThemeCalled !== 'gandalf') throw new Error(`SMOKE FAIL: setTheme = ${setThemeCalled}`)
 if (!styleEl.appended) throw new Error('SMOKE FAIL: stylesheet not appended')
+if (styleEl.id !== 'gandalf-theme-styles') throw new Error(`SMOKE FAIL: style id = ${styleEl.id}`)
 if (!styleEl.textContent.includes('Cinzel')) throw new Error('SMOKE FAIL: css missing font faces')
+if (!styleEl.textContent.includes('--dsw-alias-bg-base')) throw new Error('SMOKE FAIL: css missing token overrides')
 if (styleEl.dataset.plugin !== 'gandalf-theme') throw new Error(`SMOKE FAIL: data-plugin = ${styleEl.dataset.plugin}`)
-if (effects.length === 0) throw new Error('SMOKE FAIL: no effect registered')
+const tokenLines = (styleEl.textContent.match(/--dsw-[a-z-]+/g) || []).length
+if (tokenLines < 20) throw new Error(`SMOKE FAIL: only ${tokenLines} token references`)
 
-// --- Unload cleanup ---
-effects[0].fn()
-if (!registered.disposed) throw new Error('SMOKE FAIL: theme not disposed on unload')
-if (!styleEl.removed) throw new Error('SMOKE FAIL: stylesheet not removed on unload')
-
-console.log(`SMOKE OK: loader contract + ${tokenCount} tokens + register/setTheme/cleanup all verified`)
+console.log(`SMOKE OK: loader contract + ${tokenLines} token overrides + stylesheet injected`)

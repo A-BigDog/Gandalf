@@ -1,16 +1,14 @@
-# Gandalf — DeepSeek Harness 中土魔幻主题插件
+# Gandalf — DeepSeek Harness 背景与字体增强插件
 
-> 夜空星金配色 · 甘道夫主题背景 · Cinzel 铭文字体 · 鎏金细节
-> 为 DSH Web GUI 换上一身中土世界（Middle-earth）的魔幻皮。
+> 甘道夫朝阳背景图（原图直出）+ Cinzel 铭文标题字体，界面配色保持 DSH 原生。
 
 ## ✨ 功能
 
-- **换肤**：73 个 `--dsw-alias-*` token 覆盖（夜空蓝黑 + 星光金 + 羊皮纸白），官方 `ctx.theme` 机制
-- **背景**：甘道夫主题图（压暗至开发工具可读标准）+ 9 颗程序化金色星点 + 蓝黑遮罩
+- **背景**：用户自制「甘道夫坐山巅、云海朝阳」图，**原图直出**（无遮罩、无染色、无压暗），经半透明面板透出
 - **字体**：Cinzel 铭文标题（OFL 1.1，base64 自托管，**不依赖 Google CDN**）
-- **装饰**：鎏金气泡描边、输入框铭文聚焦环、自制 SVG 符文分隔、控件金色 hover
-- **自动生效**：插件加载即套用（`setTheme('gandalf')`），卸载恢复默认
-- **可读性**：WCAG AA 对比度 11/11 全过（正文 15.8:1）、性能 284KB bundle（预算 1MB 内）
+- **界面**：配色全部保持 DSH 默认深色主题，只把面板设为适度半透明让背景透出
+- **自动生效**：插件加载即套用，卸载恢复默认
+- **可读性**：WCAG AA 对比度 11/11 全过（正文 20.1:1）、bundle 体积可控（<1MB）
 
 ## 📦 安装
 
@@ -53,8 +51,8 @@ pnpm dsh web --patch C:/Me/projects/Gandalf/plugin/cordis.yml
 
 | 想改什么 | 改哪里 |
 |---|---|
-| 配色 | `src/client/tokens.ts`（数值表驱动：**改表不改代码**） |
-| 背景/字体/装饰样式 | `src/client/theme.css.ts`（注入 CSS 层） |
+| 面板透明度（背景透出程度） | `src/client/tokens.ts`（23 个半透明覆盖，改表不改代码） |
+| 背景图/字体/样式 | `src/client/theme.css.ts`（注入 CSS 层） |
 | 素材（换背景图/字体） | `assets/` → `node scripts/embed-assets.mjs` 重新内联 |
 | 视觉预览 | `node scripts/build-preview.mjs` → 双击 `preview.html` |
 | 冒烟测试 | `node tests/smoke.test.mjs` |
@@ -74,7 +72,7 @@ pnpm dsh web --patch C:/Me/projects/Gandalf/plugin/cordis.yml
 
 ## ⚠️ 注意事项
 
-- 只覆盖 `--dsw-alias-*` / `--dsw-specific-*` 语义 token，不触碰静态色板与组件 CSS
+- 只覆盖面板表面透明度（取 DSH 默认暗色值 + alpha），不覆盖任何主题颜色
 - 组件类名是 CSS Module hash——装饰选择器用 `[class*='local名']` 模糊匹配，真机验证为准
 - 跨插件协作只走 cordis 服务（`ctx.theme`），不 value-import（bundle purity gate）
 - 本插件是"进程内扩展"：主题选择不持久化到设置 schema，每次加载自动套用

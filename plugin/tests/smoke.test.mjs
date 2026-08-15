@@ -57,10 +57,10 @@ if (registered.id !== 'gandalf' || registered.colorScheme !== 'dark') {
   throw new Error(`SMOKE FAIL: registered = ${JSON.stringify(registered)}`)
 }
 const tokenCount = Object.keys(registered.tokens).length
-if (tokenCount < 50) throw new Error(`SMOKE FAIL: only ${tokenCount} tokens`)
+if (tokenCount < 20) throw new Error(`SMOKE FAIL: only ${tokenCount} tokens`)
 if (setThemeCalled !== 'gandalf') throw new Error(`SMOKE FAIL: setTheme = ${setThemeCalled}`)
 if (!styleEl.appended) throw new Error('SMOKE FAIL: stylesheet not appended')
-if (!styleEl.textContent.includes('Dawn backdrop')) throw new Error('SMOKE FAIL: css missing backdrop')
+if (!styleEl.textContent.includes('Cinzel')) throw new Error('SMOKE FAIL: css missing font faces')
 if (styleEl.dataset.plugin !== 'gandalf-theme') throw new Error(`SMOKE FAIL: data-plugin = ${styleEl.dataset.plugin}`)
 if (effects.length === 0) throw new Error('SMOKE FAIL: no effect registered')
 

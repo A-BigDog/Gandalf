@@ -17,9 +17,32 @@ const cssSrc = readFileSync(join(root, 'src', 'client', 'theme.css.ts'), 'utf8')
 // Extract " '--name': 'value', " pairs from the tokens object.
 const pairs = [...tokensSrc.matchAll(/\s+'([^']+)': '([^']+)'/g)]
   .map(([, name, value]) => ({ name, value }))
-if (pairs.length < 50) throw new Error(`preview: only ${pairs.length} tokens extracted`)
+if (pairs.length < 20) throw new Error(`preview: only ${pairs.length} tokens extracted`)
 
 const tokenCss = pairs.map(p => `  ${p.name}: ${p.value};`).join('\n')
+
+// DSH default dark-palette values the preview needs that Gandalf does NOT
+// override (in the real GUI these come from ui-theme; the preview must supply
+// them so colors resolve like the shipped app).
+const DEFAULT_TOKENS = {
+  '--dsw-alias-label-primary': '#f9fafb',
+  '--dsw-alias-label-secondary': '#cfd3d6',
+  '--dsw-alias-label-tertiary': '#adb2b8',
+  '--dsw-alias-label-caption': '#adb2b8',
+  '--dsw-alias-brand-primary': '#f9fafb',
+  '--dsw-alias-brand-text': '#f9fafb',
+  '--dsw-alias-border-l1': 'rgba(255,255,255,0.06)',
+  '--dsw-alias-border-l2': 'rgba(255,255,255,0.12)',
+  '--dsw-alias-button-primary-fill': '#f9fafb',
+  '--dsw-alias-button-primary-hover': '#ebedf2',
+  '--dsw-alias-button-contrast-fill': '#0f1115',
+  '--dsw-alias-state-error-primary': '#f25a5a',
+  '--dsw-alias-state-success-primary': '#22c55e',
+  '--dsw-alias-state-warn-primary': '#f59e0b',
+  '--dsw-specific-sidebar-nav-item-active-accent': 'rgba(255,255,255,0.6)',
+  '--dsw-specific-bubble-highlight': 'rgba(67,69,74,0.78)',
+}
+const defaultCss = Object.entries(DEFAULT_TOKENS).map(([k, v]) => `  ${k}: ${v};`).join('\n')
 
 // Extract the template-literal CSS body from theme.css.ts, expanding the
 // ${ASSET} interpolation placeholders from assets.generated.ts.
@@ -73,6 +96,7 @@ const page = `<!DOCTYPE html>
 ${layout}
 ${expandedCss}
 body[data-ds-dark-theme] {
+${defaultCss}
 ${tokenCss}
 }
 </style>

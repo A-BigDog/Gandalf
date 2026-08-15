@@ -96,13 +96,13 @@ function contrast(a, b) {
     ['brand (gold) vs sidebar', s.brandColor, s.sidebarBg],
     ['nav vs sidebar', s.navColor, s.sidebarBg],
     ['btn text vs btn bg', s.btnColor, s.btnBg],
-    ['error (warm red) vs bg', '#e08a6a', s.bodyBg],
-    ['warn (amber) vs bg', '#e0b45c', s.bodyBg],
-    ['success (green) vs bg', '#a8c08a', s.bodyBg],
-    ['secondary text vs panel', '#c8ae84', s.assistantBubbleBg],
-    ['tertiary text vs panel', '#a89060', s.assistantBubbleBg],
+    ['error (warm red) vs bg', '#f25a5a', s.bodyBg],
+    ['warn (amber) vs bg', '#f59e0b', s.bodyBg],
+    ['success (green) vs bg', '#22c55e', s.bodyBg],
+    ['secondary text vs panel', '#cfd3d6', s.assistantBubbleBg],
+    ['tertiary text vs panel', '#adb2b8', s.assistantBubbleBg],
     ['code text vs code bg', s.textColor, s.codeBg],
-    ['composer hint vs input', '#c8ae84', s.composerBg],
+    ['composer hint vs input', '#cfd3d6', s.composerBg],
   ]
   console.log('\n=== WCAG contrast ===')
   let allPass = true

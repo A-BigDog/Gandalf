@@ -2,6 +2,10 @@
 
 > 甘道夫朝阳背景图 + 霞鹭文楷等宽/Cinzel 字体 + 中土风控件定制，界面配色保持 DSH 原生。
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/A-BigDog/Gandalf?style=social)](https://github.com/A-BigDog/Gandalf)
+[![DSH Plugin](https://img.shields.io/badge/DSH-Plugin%20%E2%9C%A8-8a6a3a)](https://github.com/deepseek-ai/deepseek-harness)
+
 ## ✨ 功能
 
 - **背景**：用户自制「甘道夫坐山巅、云海朝阳」图，**原图直出**（无遮罩、无染色、无压暗）

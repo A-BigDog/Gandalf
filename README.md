@@ -1,0 +1,80 @@
+# Gandalf — DeepSeek Harness 中土魔幻主题插件
+
+> 夜空星金配色 · 甘道夫主题背景 · Cinzel 铭文字体 · 鎏金细节
+> 为 DSH Web GUI 换上一身中土世界（Middle-earth）的魔幻皮。
+
+## ✨ 功能
+
+- **换肤**：73 个 `--dsw-alias-*` token 覆盖（夜空蓝黑 + 星光金 + 羊皮纸白），官方 `ctx.theme` 机制
+- **背景**：甘道夫主题图（压暗至开发工具可读标准）+ 9 颗程序化金色星点 + 蓝黑遮罩
+- **字体**：Cinzel 铭文标题（OFL 1.1，base64 自托管，**不依赖 Google CDN**）
+- **装饰**：鎏金气泡描边、输入框铭文聚焦环、自制 SVG 符文分隔、控件金色 hover
+- **自动生效**：插件加载即套用（`setTheme('gandalf')`），卸载恢复默认
+- **可读性**：WCAG AA 对比度 11/11 全过（正文 15.8:1）、性能 284KB bundle（预算 1MB 内）
+
+## 📦 安装
+
+前置：DSH 源码 checkout（`pnpm install` 完成）。
+
+### 1. 构建插件
+
+```sh
+cd plugin
+"<checkout>\node_modules\.bin\tsdown.cmd"        # 产出 lib/index.js + lib/client.js
+node tests\smoke.test.mjs                         # 冒烟测试（可选但推荐）
+```
+
+### 2. 加载插件（二选一）
+
+**A. 临时加载**（推荐先验证）：
+
+```sh
+cd <checkout根>
+pnpm dsh web --patch C:/Me/projects/Gandalf/plugin/cordis.yml
+```
+
+**B. 永久加载**：把以下 insert 行加入 `~/.dsh/profiles/web/cordis.patch.yml`：
+
+```yaml
+- insert:
+    - id: gandalf-theme
+      name: 'C:/Me/projects/Gandalf/plugin/lib/index.js'
+```
+
+### 3. 生效
+
+重启 `dsh web` → Gandalf 主题自动启用。之后修改插件源码并重新构建，GUI 会通过 stat-poll 热更（无需再重启）。
+
+## 🗑️ 卸载
+
+从 patch 文件移除 gandalf-theme 的 insert 行 → 重启 `dsh web` → 恢复默认外观。
+
+## 🛠️ 开发
+
+| 想改什么 | 改哪里 |
+|---|---|
+| 配色 | `src/client/tokens.ts`（数值表驱动：**改表不改代码**） |
+| 背景/字体/装饰样式 | `src/client/theme.css.ts`（注入 CSS 层） |
+| 素材（换背景图/字体） | `assets/` → `node scripts/embed-assets.mjs` 重新内联 |
+| 视觉预览 | `node scripts/build-preview.mjs` → 双击 `preview.html` |
+| 冒烟测试 | `node tests/smoke.test.mjs` |
+| 对比度审计 | `node scripts/check-preview.mjs`（WCAG AA 11 项） |
+| 像素统计 | `node scripts/png-stats.mjs <图片>` |
+
+## 📄 素材与许可
+
+| 素材 | 来源 | 许可 |
+|---|---|---|
+| 背景图（甘道夫） | 项目作者自制（AI 生成/自绘） | 自由使用 |
+| Cinzel 字体 | Google Fonts | SIL OFL 1.1 |
+| 金色星点 / 符文 SVG | 程序化生成 / 原创 | 原创 |
+| 中土风格文案（预览） | 原创 | 原创 |
+
+详见 [`docs/ASSETS.md`](docs/ASSETS.md)。
+
+## ⚠️ 注意事项
+
+- 只覆盖 `--dsw-alias-*` / `--dsw-specific-*` 语义 token，不触碰静态色板与组件 CSS
+- 组件类名是 CSS Module hash——装饰选择器用 `[class*='local名']` 模糊匹配，真机验证为准
+- 跨插件协作只走 cordis 服务（`ctx.theme`），不 value-import（bundle purity gate）
+- 本插件是"进程内扩展"：主题选择不持久化到设置 schema，每次加载自动套用

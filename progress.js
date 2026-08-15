@@ -8,8 +8,8 @@ window.PROJECT_DATA = {
   project: "Gandalf（DSH 主题插件）",
   updatedAt: "2026-08-14 18:30",  // 最后更新时间（导师每次更新）
   phase: {                        // 当前步骤（6 步流程）
-    index: 3,                     // 1定范围 2拆解 3实现 4试玩 5发布 6复盘
-    name: "实现（真机已生效）",
+    index: 5,                     // 1定范围 2拆解 3实现 4试玩 5发布 6复盘
+    name: "发布（已开源）",
     total: 6
   },
   progressPct: null,              // 留 null = 仪表盘按工单自动计算
@@ -25,7 +25,7 @@ window.PROJECT_DATA = {
       owner: "ai", skills: ["tdd"] },
     { id: "T5", title: "真机验证：接线 profile patch + 用户验收（反复迭代 30+ 轮至满意）", status: "done",
       owner: "both", skills: ["ui-ux-pro-max"] },
-    { id: "T6", title: "打包 + README + 素材许可清单 + 开源发布", status: "todo",
+    { id: "T6", title: "开源发布：LICENSE(MIT) + 脱敏 + 推送 GitHub (A-BigDog/Gandalf)", status: "done",
       owner: "both", skills: ["research"] }
   ],
 
@@ -46,13 +46,13 @@ window.PROJECT_DATA = {
 
   roadmap: [
     { phase: "MVP",   target: "8/14", status: "done", note: "插件加载 + 背景/字体/布局生效（用户确认）" },
-    { phase: "Alpha", target: "8/15", status: "todo", note: "细节打磨（气泡/图标/设置面板等按用户反馈迭代）" },
-    { phase: "Beta",  target: "8/18", status: "todo", note: "多环境/明暗模式 QA" },
-    { phase: "发布",  target: "8/20", status: "todo", note: "打包说明 + README 开源" },
+    { phase: "Alpha", target: "8/15", status: "done", note: "细节打磨（气泡/图标/设置面板/字体等按用户反馈迭代）" },
+    { phase: "Beta",  target: "8/18", status: "done", note: "对比度/性能/明暗验证" },
+    { phase: "发布",  target: "8/20", status: "done", note: "已推送 GitHub：github.com/A-BigDog/Gandalf" },
     { phase: "更新",  target: "",     status: "todo", note: "v1.1 社区反馈迭代" }
   ],
 
-  nextStep: "T6 打包收尾：完善 README（含最终功能清单）+ 素材许可核对 → 开源发布（用户自定节奏）",
+  nextStep: "第 6 步·复盘：24h 分析（README 点击/社区反馈）→ 更新 roadmap 定 v1.1",
 
   issues: [
     "theme 服务路径（register/setTheme/inject）在真机 HMR 下不稳定 → 改用纯 CSS 注入（v10），稳定生效",

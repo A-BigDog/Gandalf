@@ -132,13 +132,6 @@ body {
   background: rgba(44, 44, 46, 0.92) !important;
 }
 
-/* 选择框提交按钮：黑色背景（用户要求） */
-[class*='card'] [class*='primary'] {
-  background: #000 !important;
-  color: #f9fafb !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
-}
-
 /* 发送按钮（输入区内）：五芒星图标（自制 SVG mask，居中）+ 深色底。
    限定 composer 容器——选择框等其它 primary 按钮保持 DSH 默认。 */
 [class*='composer'] [class*='primary'] {

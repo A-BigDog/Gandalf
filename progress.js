@@ -70,10 +70,9 @@ window.PROJECT_DATA = {
   ],
 
   readiness: {
-    score: 8,
+    score: 9,
     gaps: [
-      "T6 开源打包未完成（README 需更新最终功能清单）",
-      "明暗双模式未全覆盖验证（当前强制深色观感）"
+      "v1.1 方向待定：24h 后看社区反馈/仓库数据再定"
     ]
   },
 

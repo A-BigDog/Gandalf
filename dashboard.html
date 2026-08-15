@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-bs-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Game Master</title>
+<link rel="stylesheet" href="vendor/bootstrap.min.css">
+<link rel="stylesheet" href="vendor/overlayscrollbars.min.css">
+<link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css">
+<link rel="stylesheet" href="vendor/adminlte.min.css">
+<link rel="stylesheet" href="vendor/fonts.css">
+</head>
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+<div class="app-wrapper">
+  <!-- ===== Header（官方 app-header navbar） ===== -->
+  <nav class="app-header navbar navbar-expand bg-body">
+    <div class="container-fluid">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button" aria-label="Toggle sidebar">
+            <i class="bi bi-list"></i>
+          </a>
+        </li>
+        <li class="nav-item d-none d-md-block">
+          <a href="#top" class="nav-link"><i class="bi bi-controller me-1"></i><span id="proj">—</span></a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <button type="button" class="btn btn-icon" id="themeBtn" aria-label="切换明暗" title="切换明暗"><i class="bi bi-moon-stars"></i></button>
+        </li>
+        <li class="nav-item d-flex align-items-center gap-2 pe-3">
+          <span class="d-inline-block rounded-circle bg-success" id="livedot" style="width:8px;height:8px"></span>
+          <span class="small text-secondary fw-semibold">LIVE</span>
+          <span class="small text-secondary font-monospace" id="upd">等待数据…</span>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== Sidebar（官方 app-sidebar） ===== -->
+  <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+    <div class="sidebar-brand">
+      <a href="#top" class="brand-link">
+        <i class="bi bi-controller brand-image opacity-75"></i>
+        <span class="brand-text fw-light">AI Game Master</span>
+      </a>
+    </div>
+    <div class="sidebar-wrapper">
+      <nav class="mt-2">
+        <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+          <li class="nav-header">导航菜单</li>
+          <li class="nav-item"><a href="#top" class="nav-link active" data-nav="top"><i class="nav-icon bi bi-speedometer2"></i><p>概览</p></a></li>
+          <li class="nav-item"><a href="#tasks" class="nav-link" data-nav="tasks"><i class="nav-icon bi bi-person"></i><p>你的任务</p></a></li>
+          <li class="nav-item"><a href="#tickets" class="nav-link" data-nav="tickets"><i class="nav-icon bi bi-clipboard-check"></i><p>工单</p></a></li>
+          <li class="nav-item"><a href="#skills" class="nav-link" data-nav="skills"><i class="nav-icon bi bi-tools"></i><p>技能库</p></a></li>
+          <li class="nav-item"><a href="#issues" class="nav-link" data-nav="issues"><i class="nav-icon bi bi-bug"></i><p>错误记录</p></a></li>
+          <li class="nav-item"><a href="#toolbox" class="nav-link" data-nav="toolbox"><i class="nav-icon bi bi-box-seam"></i><p>工具箱</p></a></li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ===== Main ===== -->
+  <main class="app-main">
+    <div class="app-content-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-6"><h3 class="mb-0"><i class="bi bi-controller me-2"></i><span id="proj2">—</span></h3></div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-end">
+              <li class="breadcrumb-item"><a href="#top">概览</a></li>
+              <li class="breadcrumb-item active" id="upd2">等待数据…</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-content">
+      <div class="container-fluid" id="main" style="display:none">
+        <!-- Small Boxes（官方结构：inner + small-box-icon + footer） -->
+        <div class="row">
+          <div class="col-6 col-lg-3">
+            <div class="small-box text-bg-primary"><div class="inner"><h3 id="sb-progress">0%</h3><p>总进度</p></div><i class="bi bi-speedometer2 small-box-icon"></i><a href="#top" class="small-box-footer">更多信息 <i class="bi bi-arrow-right"></i></a></div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="small-box text-bg-success"><div class="inner"><h3 id="sb-tickets">0</h3><p>工单（完成/进行/待办）</p></div><i class="bi bi-clipboard-check small-box-icon"></i><a href="#tickets" class="small-box-footer">全部工单 <i class="bi bi-arrow-right"></i></a></div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="small-box text-bg-warning"><div class="inner"><h3 id="sb-budget">¥0</h3><p>预算</p></div><i class="bi bi-cash-coin small-box-icon"></i><a href="#tasks" class="small-box-footer">你的任务 <i class="bi bi-arrow-right"></i></a></div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="small-box text-bg-danger"><div class="inner"><h3 id="sb-ready">—</h3><p>发布就绪度</p></div><i class="bi bi-flag-fill small-box-icon"></i><a href="#top" class="small-box-footer">差距清单 <i class="bi bi-arrow-right"></i></a></div>
+          </div>
+        </div>
+
+        <!-- 阶段 -->
+        <div class="card mt-4">
+          <div class="card-header"><h3 class="card-title"><i class="bi bi-signpost-2 me-1 text-primary"></i>项目阶段</h3></div>
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-md-5">
+                <div class="fs-4 fw-bold" id="phase">—</div>
+                <div class="progress mt-3" role="progressbar" style="height:10px">
+                  <div class="progress-bar" id="barfill" style="width:0%"></div>
+                </div>
+                <div class="text-secondary mt-2" id="next"></div>
+              </div>
+              <div class="col-md-7">
+                <div class="d-flex align-items-start gap-2">
+                  <span class="small text-secondary fw-semibold" style="width:52px;flex:none;padding-top:4px">流程</span>
+                  <div class="d-flex flex-wrap align-items-center gap-2" id="steps"></div>
+                </div>
+                <div class="d-flex align-items-start gap-2 mt-3">
+                  <span class="small text-secondary fw-semibold" style="width:52px;flex:none;padding-top:4px">路线图</span>
+                  <div class="d-flex flex-wrap align-items-center gap-2" id="roadmap"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 你的任务 + 差距 -->
+        <div class="row mt-4">
+          <div class="col-md-7" id="tasks">
+            <div class="card card-primary card-outline">
+              <div class="card-header"><h3 class="card-title"><i class="bi bi-person me-1"></i>你的任务</h3></div>
+              <div class="card-body"><ul class="list-group list-group-flush" id="yourtasks"></ul></div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="card">
+              <div class="card-header"><h3 class="card-title"><i class="bi bi-crosshair me-1"></i>差距清单</h3></div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush" id="stat-gaps"></ul>
+                <div class="mt-3" id="stat-grade"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 折叠卡片（官方 card-collapse） -->
+        <div class="card mt-4" id="tickets">
+          <div class="card-header">
+            <h3 class="card-title"><i class="bi bi-clipboard-check me-1"></i>全部工单（<span id="tcount">0</span>）</h3>
+            <div class="btn-group btn-group-sm ms-3" id="ticketFilter">
+              <button type="button" class="btn btn-outline-secondary active" data-f="all">全部</button>
+              <button type="button" class="btn btn-outline-secondary" data-f="doing">进行中</button>
+              <button type="button" class="btn btn-outline-secondary" data-f="todo">待办</button>
+              <button type="button" class="btn btn-outline-secondary" data-f="done">完成</button>
+            </div>
+            <div class="card-tools"><button type="button" class="btn btn-tool" data-lte-toggle="card-collapse" data-bs-toggle="tooltip" data-bs-placement="left" title="收起/展开"><i class="bi bi-dash-lg"></i></button></div>
+          </div>
+          <div class="card-body"><ul class="list-group list-group-flush" id="tickets-list"></ul></div>
+        </div>
+
+        <div class="card mt-4" id="skills">
+          <div class="card-header">
+            <h3 class="card-title"><i class="bi bi-tools me-1"></i>技能库（<span id="scount">0</span>）</h3>
+            <div class="card-tools"><button type="button" class="btn btn-tool" data-lte-toggle="card-collapse" data-bs-toggle="tooltip" data-bs-placement="left" title="收起/展开"><i class="bi bi-dash-lg"></i></button></div>
+          </div>
+          <div class="card-body"><ul class="list-group list-group-flush" id="skilllib"></ul></div>
+        </div>
+
+        <div class="card mt-4" id="ms">
+          <div class="card-header">
+            <h3 class="card-title"><i class="bi bi-calendar3 me-1"></i>里程碑</h3>
+            <div class="card-tools"><button type="button" class="btn btn-tool" data-lte-toggle="card-collapse" data-bs-toggle="tooltip" data-bs-placement="left" title="收起/展开"><i class="bi bi-dash-lg"></i></button></div>
+          </div>
+          <div class="card-body"><div class="timeline" id="ms-list"></div></div>
+        </div>
+
+        <div class="card mt-4" id="issues">
+          <div class="card-header">
+            <h3 class="card-title"><i class="bi bi-bug me-1"></i>错误记录（<span id="icount">0</span>）</h3>
+            <div class="card-tools"><button type="button" class="btn btn-tool" data-lte-toggle="card-collapse" data-bs-toggle="tooltip" data-bs-placement="left" title="收起/展开"><i class="bi bi-dash-lg"></i></button></div>
+          </div>
+          <div class="card-body"><ul class="list-group list-group-flush" id="issues-list"></ul></div>
+        </div>
+
+        <div class="card mt-4" id="toolbox">
+          <div class="card-header">
+            <h3 class="card-title"><i class="bi bi-box-seam me-1"></i>工具箱</h3>
+            <div class="card-tools"><button type="button" class="btn btn-tool" data-lte-toggle="card-collapse" data-bs-toggle="tooltip" data-bs-placement="left" title="收起/展开"><i class="bi bi-dash-lg"></i></button></div>
+          </div>
+          <div class="card-body"><ul class="list-group list-group-flush" id="toolbox-list"></ul></div>
+        </div>
+
+        <div class="card mt-4" id="cmdpanel">
+          <div class="card-header">
+            <h3 class="card-title"><i class="bi bi-terminal me-1"></i>快捷命令</h3>
+            <div class="card-tools"><button type="button" class="btn btn-tool" data-lte-toggle="card-collapse" data-bs-toggle="tooltip" data-bs-placement="left" title="收起/展开"><i class="bi bi-dash-lg"></i></button></div>
+          </div>
+          <div class="card-body">
+            <table class="table table-sm align-middle mb-2">
+              <thead><tr><th style="width:32%">命令</th><th>用途</th><th style="width:14%"></th></tr></thead>
+              <tbody>
+                <tr><td><code>/gm-init</code></td><td class="small text-secondary">DSH 输入框：空项目初始化并从头接管（第 0 步需求挖掘）</td><td class="text-end"><button class="btn btn-sm btn-outline-secondary" onclick="copyCmd('/gm-init', this)">复制</button></td></tr>
+                <tr><td><code>/gm-build</code></td><td class="small text-secondary">DSH 输入框：接管当前已有数据的项目</td><td class="text-end"><button class="btn btn-sm btn-outline-secondary" onclick="copyCmd('/gm-build', this)">复制</button></td></tr>
+                <tr><td><code>/gm-web</code></td><td class="small text-secondary">DSH 输入框：打开本项目仪表盘</td><td class="text-end"><button class="btn btn-sm btn-outline-secondary" onclick="copyCmd('/gm-web', this)">复制</button></td></tr>
+              </tbody>
+            </table>
+            <div class="small text-secondary">在 DSH 会话输入框输入 / 使用</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-danger alert-dismissible mt-4 d-none" id="alert">
+        <i class="bi bi-exclamation-triangle-fill me-1"></i><span class="fw-bold">导师提醒</span>
+        <div id="alert-msg"></div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+
+      <div class="callout callout-info mt-4" id="empty" style="display:none">
+        <i class="callout-icon bi bi-info-circle-fill"></i>
+        <h5>还没有项目数据</h5>
+        <p class="mb-0">把 <code>progress.js</code> 放到本文件同目录即可（模板：game-dev/progress.template.js）。</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer class="mt-3 text-center small text-secondary">AI Game Master v1.0 · AdminLTE 4 官方模板 · 双击即用 · 每 5 秒自动刷新</footer>
+
+<script src="vendor/overlayscrollbars.browser.es6.min.js"></script>
+<script src="vendor/bootstrap.bundle.min.js"></script>
+<script src="vendor/adminlte.min.js"></script>
+<script>
+var TOOLBOX = [
+  { name:"Tiled", use:"可视化关卡编辑", ai:"AI 生成 JSON 关卡数据，Tiled 打开编辑", link:"https://www.mapeditor.org" },
+  { name:"Piskel / Aseprite", use:"像素画", ai:"AI 生成调色板/像素数据；或程序化生成贴图", link:"https://www.piskelapp.com" },
+  { name:"Kenney.nl", use:"免费素材包", ai:"AI 按清单引用，维护 asset manifest", link:"https://kenney.nl" },
+  { name:"BFXR / jsfxr", use:"8-bit 音效", ai:"AI 生成音效参数（频率/包络）", link:"https://www.bfxr.net" },
+  { name:"BeepBox / LMMS", use:"芯片音乐 / BGM", ai:"AI 生成音符序列 / loop 结构", link:"https://www.beepbox.co" },
+  { name:"Matter.js", use:"复杂物理", ai:"AI 集成 + 参数调优", link:"https://brm.io/matter-js" },
+  { name:"vitest + Playwright", use:"单测 + 截图验证", ai:"AI 写测试、跑重放、做像素分析", link:"https://playwright.dev" },
+  { name:"itch.io / GitHub Pages", use:"网页游戏发布", ai:"AI 生成页面描述/标签/商店文案", link:"https://itch.io" },
+  { name:"git", use:"回滚安全网", ai:"每个里程碑自动 commit", link:"" },
+];
+(function(){
+  var tb = document.getElementById('toolbox-list');
+  TOOLBOX.forEach(function(t){
+    var li = document.createElement('li'); li.className = 'list-group-item';
+    li.innerHTML = '<div class="fw-semibold">' + t.name + '<span class="text-secondary fw-normal"> — ' + t.use + '</span></div>' +
+      '<div class="small text-secondary">AI：' + t.ai + (t.link ? ' ｜ <a class="text-primary" href="' + t.link + '">' + t.link + '</a>' : '') + '</div>';
+    tb.appendChild(li);
+  });
+})();
+
+var SKILLS = [
+  { name:"game-mentor", src:"核心", desc:"AI Game Master：带路、错误打断、预算/安全、维护仪表盘" },
+  { name:"ui-ux-pro-max", src:"设计", desc:"UI/UX 设计协议：模板优先、布局对齐、配色层级、视觉评审" },
+  { name:"design-taste-frontend", src:"设计", desc:"前端设计品味：配色系统/字体层级/组件规范/暗色模式" },
+  { name:"to-spec", src:"命令", desc:"需求 → 规格文档（目标/用户/范围/验收）" },
+  { name:"to-tickets", src:"命令", desc:"规格 → 工单（每张可独立验证）" },
+  { name:"grill-with-docs", src:"命令", desc:"拿文档盘问计划/规格，找漏洞矛盾" },
+  { name:"wayfinder", src:"命令", desc:"决定下一步做什么（唯一下一步+理由+标准）" },
+  { name:"handoff", src:"命令", desc:"会话交接文档，无缝换会话" },
+  { name:"triage", src:"命令", desc:"问题分类定级（bug/需求/方向）" },
+  { name:"tdd", src:"核心", desc:"测试驱动开发" },
+  { name:"code-review", src:"核心", desc:"双轴代码审查" },
+  { name:"diagnosing-bugs", src:"核心", desc:"疑难 bug 诊断循环" },
+  { name:"research", src:"核心", desc:"高信任一手资料调研" },
+  { name:"prototype", src:"核心", desc:"一次性原型验证" },
+  { name:"grilling", src:"核心", desc:"方案拷问" },
+  { name:"codebase-design", src:"核心", desc:"深模块设计词汇" },
+  { name:"domain-modeling", src:"核心", desc:"领域模型沉淀" },
+];
+
+var STEPS_SHORT = ['定范围','拆解','实现','试玩','发布','复盘'];
+var emptyShown = false;
+
+function loadData(){
+  var s = document.createElement('script');
+  s.src = 'progress.js?t=' + Date.now();
+  s.onload = function(){
+    if (window.PROJECT_DATA) render(window.PROJECT_DATA);
+    else showEmpty();
+  };
+  s.onerror = function(){ showEmpty(); };
+  document.head.appendChild(s);
+}
+function showEmpty(){
+  el('empty').style.display = 'block';
+  el('main').style.display = 'none';
+  el('livedot').classList.remove('bg-success');
+  el('livedot').classList.add('bg-danger');
+  el('upd').textContent = 'progress.js 未找到';
+}
+function el(id){ return document.getElementById(id); }
+function setText(id,t){ el(id).textContent = t; }
+
+/* 初始化 Bootstrap tooltip */
+document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(elm){ new bootstrap.Tooltip(elm); });
+
+/* 一键复制命令（file:// 兼容） */
+function copyCmd(txt, btn){
+  var ta = document.createElement('textarea');
+  ta.value = txt; document.body.appendChild(ta); ta.select();
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch(e){}
+  document.body.removeChild(ta);
+  if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(txt); ok = true; }
+  if (btn){ btn.textContent = ok ? '已复制 ✓' : '失败'; setTimeout(function(){ btn.textContent = '复制'; }, 1600); }
+}
+
+/* 暗色模式切换（AdminLTE 4 原生，localStorage 记忆） */
+(function(){
+  var btn = document.getElementById('themeBtn');
+  if (!btn) return;
+  function apply(t){ document.documentElement.dataset.bsTheme = t; try { localStorage.setItem('gm-theme', t); } catch(e){} }
+  var saved = null; try { saved = localStorage.getItem('gm-theme'); } catch(e){}
+  if (saved === 'dark') apply('dark');
+  btn.onclick = function(){ apply(document.documentElement.dataset.bsTheme === 'dark' ? 'light' : 'dark'); };
+})();
+
+/* 工单筛选 */
+var tFilter = 'all';
+(function(){
+  var box = document.getElementById('ticketFilter');
+  if (!box) return;
+  box.querySelectorAll('button').forEach(function(btn){
+    btn.onclick = function(){
+      tFilter = btn.dataset.f;
+      box.querySelectorAll('button').forEach(function(x){ x.classList.toggle('active', x === btn); });
+      if (window.PROJECT_DATA) render(window.PROJECT_DATA);
+    };
+  });
+})();
+
+function render(d){
+  try {
+  if (emptyShown){ el('empty').style.display = 'none'; emptyShown = false; }
+  el('main').style.display = 'block';
+  el('livedot').classList.remove('bg-danger');
+  el('livedot').classList.add('bg-success');
+  setText('proj', d.project || '未命名项目');
+  setText('proj2', d.project || '未命名项目');
+  setText('upd', '更新于 ' + (d.updatedAt || '?'));
+  setText('upd2', '第 ' + ((d.phase && d.phase.index) || '?') + ' 步 · ' + ((d.phase && d.phase.name) || '未开始'));
+
+  var totalT = (d.tickets || []).length;
+  var doneT = (d.tickets || []).filter(function(t){ return t.status === 'done'; }).length;
+  var autoPct = totalT ? Math.round(doneT / totalT * 100) : 0;
+  var pct = (typeof d.progressPct === 'number') ? Math.max(0, Math.min(100, d.progressPct)) : autoPct;
+  var ph = d.phase || {};
+  setText('sb-progress', pct + '%');
+  setText('phase', '第 ' + (ph.index||'?') + ' / ' + (ph.total||6) + ' 步 · ' + (ph.name||''));
+  el('barfill').style.width = pct + '%';
+  el('next').innerHTML = '<i class="bi bi-arrow-right text-primary me-1"></i>' + (d.nextStep || '等待导师更新');
+
+  var steps = el('steps'); steps.innerHTML = '';
+  var cur = ph.index || 0;
+  STEPS_SHORT.forEach(function(name, i){
+    if (i > 0){ var sep = document.createElement('span'); sep.className = 'text-secondary'; sep.textContent = '→'; steps.appendChild(sep); }
+    var b = document.createElement('span'); b.className = 'badge rounded-pill';
+    b.className += i + 1 < cur ? ' text-bg-success' : i + 1 === cur ? ' text-bg-primary' : ' text-bg-secondary';
+    b.style.cssText = 'min-width:64px;text-align:center';
+    b.innerHTML = (i + 1 < cur ? '<i class="bi bi-check-lg me-1"></i>' : '') + name;
+    steps.appendChild(b);
+  });
+
+  /* 版本路线图（MVP→Alpha→Beta→发布→更新，含到期检测） */
+  var rmap = el('roadmap'); rmap.innerHTML = '';
+  var rds = d.roadmap || [];
+  var overdue = [];
+  if (rds.length){
+    rds.forEach(function(r, i){
+      var isOverdue = false;
+      if (r.status !== 'done' && r.target){
+        var dt = new Date(new Date().getFullYear() + '/' + r.target);
+        if (!isNaN(dt.getTime()) && dt < new Date()) { isOverdue = true; overdue.push(r.phase); }
+      }
+      if (i > 0){ var sep = document.createElement('span'); sep.className = 'text-secondary'; sep.textContent = '→'; rmap.appendChild(sep); }
+      var rb = document.createElement('span'); rb.className = 'badge rounded-pill';
+      rb.className += r.status === 'done' ? ' text-bg-success' : isOverdue ? ' text-bg-danger' : r.status === 'doing' ? ' text-bg-primary' : ' text-bg-secondary';
+      rb.style.cssText = 'min-width:64px;text-align:center';
+      rb.innerHTML = (r.status === 'done' ? '<i class="bi bi-check-lg me-1"></i>' : r.status === 'doing' ? '<i class="bi bi-play-fill me-1"></i>' : '') + r.phase;
+      rb.title = (r.target ? r.target + '：' : '') + (r.note || '');
+      rmap.appendChild(rb);
+    });
+  }
+
+  var total = (d.tickets || []).length;
+  var done = (d.tickets || []).filter(function(t){ return t.status === 'done'; }).length;
+  var doing = (d.tickets || []).filter(function(t){ return t.status === 'doing'; }).length;
+  var b = d.budget || {};
+  var r = d.readiness || {};
+  var score = r.score != null ? r.score : null;
+  setText('sb-tickets', done + ' / ' + doing + ' / ' + (total-done-doing));
+  setText('sb-budget', (b.used!=null ? b.currency+b.used : '?') + ' / ' + (b.currency||'') + (b.cap||'?'));
+  el('sb-ready').innerHTML = score != null ? score + '<span class="fs-6">/10</span>' : '—';
+  var grade = score == null ? '' : score < 4 ? '<span class="badge text-bg-danger">原型级</span>' : score < 7 ? '<span class="badge text-bg-warning">可试玩</span>' : '<span class="badge text-bg-success">可发布</span>';
+  el('stat-grade').innerHTML = grade;
+  var gaps = el('stat-gaps'); gaps.innerHTML = '';
+  (r.gaps || []).forEach(function(g){
+    var li = document.createElement('li'); li.className = 'list-group-item px-0 small text-secondary';
+    li.innerHTML = '<i class="bi bi-exclamation-circle-fill text-warning me-2"></i>' + g;
+    gaps.appendChild(li);
+  });
+  if (!(r.gaps || []).length) gaps.innerHTML = '<li class="list-group-item px-0 small text-success"><i class="bi bi-check-circle-fill me-2"></i>无差距</li>';
+
+  var yt = el('yourtasks'); yt.innerHTML = '';
+  var mine = (d.tickets || []).filter(function(t){ return (t.owner === 'user' || t.owner === 'both') && t.status !== 'done'; });
+  mine.forEach(function(t){
+    var li = document.createElement('li'); li.className = 'list-group-item list-group-item-action px-0 d-flex align-items-center gap-2';
+    li.innerHTML = '<span class="badge text-bg-' + (t.status === 'doing' ? 'info' : 'secondary') + '" style="min-width:52px;text-align:center">' + (t.status === 'doing' ? '进行中' : '待办') + '</span>' +
+      '<span class="flex-grow-1">' + (t.title || t.id) + '</span>' +
+      ((t.skills||[]).length ? '<span class="small text-primary font-monospace" style="flex:none">' + t.skills.join(' · ') + '</span>' : '');
+    yt.appendChild(li);
+  });
+  if (!mine.length) yt.innerHTML = '<li class="list-group-item px-0 text-secondary small">你当前没有待办任务</li>';
+
+  var tickets = el('tickets-list'); tickets.innerHTML = '';
+  setText('tcount', total);
+  var tlist = (d.tickets || []).filter(function(t){ return tFilter === 'all' ? true : t.status === tFilter; });
+  if (tFilter !== 'all' && !tlist.length) tickets.innerHTML = '<li class="list-group-item px-0 text-secondary small">当前筛选下没有工单</li>';
+  tlist.forEach(function(t){
+    var li = document.createElement('li'); li.className = 'list-group-item list-group-item-action px-0 d-flex align-items-center gap-2';
+    var owner = t.owner === 'user' ? '你' : t.owner === 'both' ? '一起' : 'AI';
+    li.innerHTML = '<span class="badge text-bg-' + (t.status === 'done' ? 'success' : t.status === 'doing' ? 'info' : 'secondary') + '" style="min-width:52px;text-align:center">' +
+      (t.status === 'done' ? '完成' : t.status === 'doing' ? '进行中' : '待办') + '</span>' +
+      '<span class="flex-grow-1' + (t.status === 'done' ? ' text-decoration-line-through text-secondary' : '') + '">' + (t.title || t.id) + '</span>' +
+      '<span class="small text-secondary" style="flex:none">' + owner + '</span>' +
+      ((t.skills||[]).length ? '<span class="small text-primary font-monospace" style="flex:none">' + t.skills.join(' · ') + '</span>' : '');
+    tickets.appendChild(li);
+  });
+  if (!total) tickets.innerHTML = '<li class="list-group-item px-0 text-secondary small">还没有工单</li>';
+
+  var lib = el('skilllib'); lib.innerHTML = '';
+  var used = (d.skills && d.skills.used) || [];
+  var usedNames = {};
+  used.forEach(function(u){ usedNames[u.name] = true; });
+  setText('scount', SKILLS.length);
+  SKILLS.forEach(function(s){
+    var li = document.createElement('li'); li.className = 'list-group-item px-0 d-flex align-items-baseline gap-2';
+    li.innerHTML = '<span class="small text-primary font-monospace" style="min-width:46px">' + s.src + '</span>' +
+      '<span class="flex-grow-1"><span class="fw-semibold">' + s.name + '</span> <span class="text-secondary small">— ' + s.desc + '</span></span>' +
+      (usedNames[s.name] ? '<span class="badge text-bg-success">已用</span>' : '');
+    lib.appendChild(li);
+  });
+
+  /* 里程碑：官方 timeline 组件（div.timeline + timeline-icon + text-bg-*） */
+  var ms = el('ms-list'); ms.innerHTML = '';
+  (d.milestones || []).forEach(function(m, i){
+    var wrap = document.createElement('div');
+    var icon = i === 0 ? 'timeline-icon bi bi-flag-fill text-bg-primary' : 'timeline-icon bi bi-circle text-bg-secondary';
+    wrap.innerHTML = '<i class="' + icon + '"></i><div class="timeline-item"><span class="time"><i class="bi bi-clock-fill"></i> ' + m.date + '</span>' +
+      '<h3 class="timeline-header">' + m.label + '</h3></div>';
+    ms.appendChild(wrap);
+  });
+  if (!(d.milestones || []).length) ms.innerHTML = '<div class="text-secondary small">暂无里程碑</div>';
+
+  var iss = el('issues-list'); iss.innerHTML = '';
+  var issues = d.issues || [];
+  setText('icount', issues.length);
+  issues.forEach(function(x){
+    var li = document.createElement('li'); li.className = 'list-group-item px-0 d-flex align-items-center gap-2';
+    var lv = x.level === 'fatal' ? '<span class="badge text-bg-danger">致命</span>' : x.level === 'bug' ? '<span class="badge text-bg-warning">缺陷</span>' : '<span class="badge text-bg-secondary">次要</span>';
+    li.innerHTML = lv + '<span class="flex-grow-1">' + x.title + '</span>' +
+      (x.status ? '<span class="small text-success">' + x.status + '</span>' : '');
+    iss.appendChild(li);
+  });
+  if (!issues.length) iss.innerHTML = '<li class="list-group-item px-0 text-secondary small">还没有错误记录</li>';
+
+  var al = el('alert'), am = el('alert-msg');
+  var alerts = (d.alerts || []).slice();
+  if (overdue.length) alerts.unshift('<i class="bi bi-exclamation-triangle-fill me-1"></i>路线图到期未完成：' + overdue.join('、') + ' —— 更新目标日期或标记完成');
+  if (alerts.length){ al.classList.remove('d-none'); am.innerHTML = alerts.map(function(a){ return '<div>' + a + '</div>'; }).join(''); }
+  else { al.classList.add('d-none'); am.innerHTML = ''; }
+  } catch (err) {
+    console.error('render failed:', err);
+    var al = document.getElementById('alert');
+    if (al){
+      al.classList.remove('d-none');
+      al.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-1"></i><span class="fw-bold">渲染异常：</span>' + (err && err.message ? err.message : err) + '　（请 Ctrl+F5 强刷；若仍出现，把这段文字发给我）';
+    }
+  }
+}
+
+loadData();
+setInterval(loadData, 5000);
+</script>
+</body>
+</html>

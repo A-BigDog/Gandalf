@@ -1,6 +1,6 @@
 /**
- * Gandalf preview — computed-style + WCAG contrast audit (no visual model).
- * Connects to headless Chrome CDP, opens preview.html, and reports the
+ * Gandalf live-GUI — computed-style + WCAG contrast audit (no visual model).
+ * Connects to headless Chrome CDP, opens the running DSH GUI, and reports the
  * effective colors and contrast ratios of key surfaces.
  * Run: node scripts/check-preview.mjs
  */
@@ -59,7 +59,7 @@ function contrast(a, b) {
 
   await send('Page.enable')
   await send('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: 1, mobile: false })
-  await send('Page.navigate', { url: 'file:///C:/Me/projects/Gandalf/plugin/preview.html' })
+  await send('Page.navigate', { url: 'http://127.0.0.1:3080/' })
   await sleep(3000)
 
   const evalExpr = `(() => {
@@ -115,3 +115,4 @@ function contrast(a, b) {
   console.log(allPass ? '\nALL CONTRAST PASS (>=4.5)' : '\nCONTRAST ISSUES — see above')
   child.kill()
 })().catch(e => { console.error('fail:', e.message); process.exit(1) })
+

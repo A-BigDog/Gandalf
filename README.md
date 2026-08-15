@@ -62,10 +62,9 @@ pnpm dsh web --patch C:/Me/projects/Gandalf/plugin/cordis.yml
 | 面板透明度（背景透出程度） | `src/client/tokens.ts`（23 个半透明覆盖，改表不改代码） |
 | 背景图/字体/样式 | `src/client/theme.css.ts`（注入 CSS 层） |
 | 素材（换背景图/字体） | `assets/` → `node scripts/embed-assets.mjs` 重新内联 |
-| 视觉预览 | `node scripts/build-preview.mjs` → 双击 `preview.html` |
 | 冒烟测试 | `node tests/smoke.test.mjs` |
-| 对比度审计 | `node scripts/check-preview.mjs`（WCAG AA 11 项） |
-| 像素统计 | `node scripts/png-stats.mjs <图片>` |
+| 对比度审计 | `node scripts/check-preview.mjs`（WCAG AA，审计运行中的 GUI） |
+| 真机验证 | `node scripts/verify-live.mjs`（headless 检查插件是否生效） |
 
 ## 📄 素材与许可
 

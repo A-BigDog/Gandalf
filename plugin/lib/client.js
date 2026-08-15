@@ -13,7 +13,7 @@ window.__ModuleLoader__.load({
 			"--dsw-alias-bg-layer-3": "rgba(53, 54, 56, 0.10)",
 			"--dsw-alias-bg-module-platform": "rgba(53, 54, 56, 0.12)",
 			"--dsw-alias-bg-multi-select": "rgba(33, 33, 35, 0.10)",
-			"--dsw-alias-bg-overlay": "rgba(67, 69, 74, 0.92)",
+			"--dsw-alias-bg-overlay": "rgba(67, 69, 74, 0.98)",
 			"--dsw-specific-bubble": "rgba(44, 44, 46, 0.50)",
 			"--dsw-specific-bubble-highlight": "rgba(67, 69, 74, 0.66)",
 			"--dsw-specific-input-major": "rgba(44, 44, 46, 0.76)",

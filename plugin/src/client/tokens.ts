@@ -10,14 +10,14 @@ import type { ThemeTokens } from '@deepseek-ai/dsh-client-ui-theme/client'
 
 /** Night-sky star-gold Gandalf palette, keyed by --dsw-alias-* names. */
 export const GANDALF_TOKENS: ThemeTokens = {
-  // ---- Surfaces (night-sky blue-black, near-neutral for contrast) ----
-  '--dsw-alias-bg-base': '#0e1320',
-  '--dsw-alias-bg-layer-1': '#141b2c',
-  '--dsw-alias-bg-layer-2': '#1a2338',
-  '--dsw-alias-bg-layer-3': '#202c46',
+  // ---- Surfaces (night-sky blue-black, translucent so the starfield shows through) ----
+  '--dsw-alias-bg-base': 'rgba(8, 11, 20, 0.55)',
+  '--dsw-alias-bg-layer-1': 'rgba(13, 18, 32, 0.58)',
+  '--dsw-alias-bg-layer-2': 'rgba(18, 25, 42, 0.56)',
+  '--dsw-alias-bg-layer-3': 'rgba(24, 33, 56, 0.54)',
   '--dsw-alias-bg-overlay': '#253149',
-  '--dsw-alias-bg-module-platform': '#161e30',
-  '--dsw-alias-bg-multi-select': '#1c2740',
+  '--dsw-alias-bg-module-platform': 'rgba(15, 21, 38, 0.58)',
+  '--dsw-alias-bg-multi-select': 'rgba(20, 28, 50, 0.56)',
   '--dsw-alias-bg-skeleton': 'rgba(232, 200, 119, 0.08)',
   '--dsw-alias-bg-mask-1': 'rgba(5, 8, 16, 0.6)',
   '--dsw-alias-bg-mask-2': 'rgba(5, 8, 16, 0.3)',
@@ -65,13 +65,13 @@ export const GANDALF_TOKENS: ThemeTokens = {
   '--dsw-alias-interactive-bg-hover-accent': 'rgba(232, 200, 119, 0.22)',
   '--dsw-alias-interactive-bg-active': 'rgba(232, 200, 119, 0.18)',
 
-  // ---- Markdown / code ----
-  '--dsw-alias-markdown-code-block': '#0c1018',
-  '--dsw-alias-markdown-code-block-banner': '#121829',
-  '--dsw-alias-markdown-inline-code': '#1a2338',
-  '--dsw-alias-markdown-citation': '#121829',
-  '--dsw-alias-markdown-placeholder': '#121829',
-  '--dsw-alias-markdown-tag': '#1c2740',
+  // ---- Markdown / code (near-opaque: readability first) ----
+  '--dsw-alias-markdown-code-block': 'rgba(8, 11, 18, 0.94)',
+  '--dsw-alias-markdown-code-block-banner': 'rgba(13, 18, 32, 0.92)',
+  '--dsw-alias-markdown-inline-code': 'rgba(20, 28, 50, 0.76)',
+  '--dsw-alias-markdown-citation': 'rgba(13, 18, 32, 0.90)',
+  '--dsw-alias-markdown-placeholder': 'rgba(13, 18, 32, 0.90)',
+  '--dsw-alias-markdown-tag': 'rgba(22, 31, 54, 0.78)',
 
   // ---- Scrollbar ----
   '--dsw-alias-scrollbar-bg-l1': '#3a4660',
@@ -91,15 +91,15 @@ export const GANDALF_TOKENS: ThemeTokens = {
   '--dsw-alias-tooltip-bg': '#253149',
 
   // ---- Specific surfaces ----
-  '--dsw-specific-bubble': '#1a2236',
-  '--dsw-specific-bubble-highlight': '#243050',
-  '--dsw-specific-input-major': '#141b2c',
-  '--dsw-specific-login-input': '#161e30',
+  '--dsw-specific-bubble': 'rgba(18, 25, 42, 0.80)',
+  '--dsw-specific-bubble-highlight': 'rgba(28, 39, 66, 0.76)',
+  '--dsw-specific-input-major': 'rgba(13, 18, 32, 0.84)',
+  '--dsw-specific-login-input': 'rgba(15, 21, 38, 0.84)',
   '--dsw-specific-menu': '#1a2338',
-  '--dsw-specific-selector': '#1c2740',
-  '--dsw-specific-sidebar-fill': '#0b0f18',
-  '--dsw-specific-sidebar-nav-item-active': '#1c2740',
+  '--dsw-specific-selector': 'rgba(20, 28, 50, 0.76)',
+  '--dsw-specific-sidebar-fill': 'rgba(6, 9, 18, 0.66)',
+  '--dsw-specific-sidebar-nav-item-active': 'rgba(20, 28, 50, 0.72)',
   '--dsw-specific-sidebar-nav-item-active-accent': '#e8c877',
-  '--dsw-specific-sidebar-nav-item-hover': '#141b2c',
-  '--dsw-specific-tip': '#1c2740',
+  '--dsw-specific-sidebar-nav-item-hover': 'rgba(13, 18, 32, 0.74)',
+  '--dsw-specific-tip': 'rgba(20, 28, 50, 0.78)',
 }

@@ -30,7 +30,8 @@ const expandedCss = cssMatch[1].replace(/\$\{([A-Z0-9_]+)\}/g, (m, name) => asse
 const layout = `/* Simulated DSH layout (preview only) */
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
-body { display: flex; font-family: var(--dsw-font-family, system-ui); color: var(--dsw-alias-label-primary); background: var(--dsw-alias-bg-base); }
+html { background-color: #0a0e18; }
+body { display: flex; font-family: var(--dsw-font-family, system-ui); color: var(--dsw-alias-label-primary); background: transparent; }
 #app { display: grid; grid-template-columns: 240px 1fr 320px; width: 100%; height: 100%; }
 /* Sidebar */
 #sidebar { background: var(--dsw-specific-sidebar-fill); border-right: 1px solid var(--dsw-alias-border-l1); display: flex; flex-direction: column; padding: 14px; gap: 8px; }
@@ -90,8 +91,8 @@ ${tokenCss}
   </aside>
   <main id="conversation">
     <div id="messages">
-      <div class="msg user">甘道夫，你曾说“凡黑暗处，皆有一线光明”。帮我写一段法术施展的代码？</div>
-      <div class="msg assistant">
+      <div class="msg bubble user">甘道夫，你曾说“凡黑暗处，皆有一线光明”。帮我写一段法术施展的代码？</div>
+      <div class="msg bubble assistant">
         <h3>Light of the Wizard</h3>
         <p>“你无法通过黑暗战胜黑暗，唯有光明方可破之。”下面是一个护盾咒术的实现：</p>
         <pre class="code"><span class="cmt">// 圣光护盾 · Istari</span>
@@ -102,16 +103,17 @@ ${tokenCss}
 <span class="kw">console.log</span>(<span class="str">"You shall not pass!"</span>);</pre>
         <div class="toolcard"><span class="dot"></span>pwsh · 施展法术 castShield —— 完成，用时 1.2s</div>
       </div>
-      <div class="msg assistant">
+      <hr>
+      <div class="msg bubble assistant">
         <h3>中土地图已载入</h3>
         <p>迷雾山脉之东，刚铎与魔多的边境已在视野之内。需要我规划一条从瑞文戴尔出发的路线吗？</p>
       </div>
     </div>
-    <div id="composer">
-      <div class="box">向甘道夫询问中土之事……</div>
+    <div id="composer" class="composer">
+      <div class="box input">向甘道夫询问中土之事……</div>
       <div class="actions">
-        <button class="btn ghost">撤回</button>
-        <button class="btn">✦ 施法</button>
+        <button class="btn button ghost">撤回</button>
+        <button class="btn button">✦ 施法</button>
       </div>
     </div>
   </main>

@@ -9,19 +9,30 @@
 import { BG_IMAGE, CINZEL_A, CINZEL_B } from './assets.generated.ts'
 
 export const GANDALF_CSS = `
-/* ---- Starry-night backdrop (OGA CC0 night sky, base64) ---- */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
+/* ---- Base fallback (keeps the page from showing the UA white when the
+   body surface turns translucent so the starfield shows through) ---- */
+html {
+  background-color: #0a0e18;
+}
+
+/* ---- Starry-night backdrop on the body itself (single-layer attenuation:
+   translucent surfaces above reveal it without stacking a second fade).
+   Programmatic golden star-sparkles guarantee visible stars even where the
+   base art is dim. ---- */
+body {
   background:
-    radial-gradient(1100px 640px at 72% -12%, rgba(232, 200, 119, 0.07), transparent 62%),
-    radial-gradient(900px 600px at 8% 112%, rgba(20, 27, 44, 0.5), transparent 60%),
-    linear-gradient(rgba(9, 12, 22, 0.88), rgba(9, 12, 22, 0.88)),
-    url(${BG_IMAGE}) center/cover no-repeat fixed;
-  opacity: 0.96;
+    radial-gradient(1100px 640px at 72% -12%, rgba(232, 200, 119, 0.10), transparent 62%),
+    radial-gradient(1.6px 1.6px at 18% 22%, rgba(255, 244, 210, 0.95), transparent 70%),
+    radial-gradient(2.2px 2.2px at 62% 9%, rgba(255, 250, 225, 0.9), transparent 70%),
+    radial-gradient(1.4px 1.4px at 84% 30%, rgba(255, 244, 210, 0.85), transparent 70%),
+    radial-gradient(2px 2px at 38% 45%, rgba(255, 246, 215, 0.8), transparent 70%),
+    radial-gradient(1.5px 1.5px at 72% 58%, rgba(255, 248, 220, 0.75), transparent 70%),
+    radial-gradient(1.8px 1.8px at 12% 74%, rgba(255, 244, 210, 0.8), transparent 70%),
+    radial-gradient(2.4px 2.4px at 48% 88%, rgba(255, 250, 225, 0.7), transparent 70%),
+    radial-gradient(1.3px 1.3px at 92% 80%, rgba(255, 244, 210, 0.75), transparent 70%),
+    radial-gradient(900px 600px at 6% 108%, rgba(30, 40, 70, 0.35), transparent 60%),
+    linear-gradient(rgba(8, 11, 20, 0.36), rgba(8, 11, 20, 0.36)),
+    url(${BG_IMAGE}) center/cover no-repeat fixed !important;
 }
 
 /* ---- Titling faces: Cinzel (OFL 1.1), self-hosted base64 ---- */
@@ -53,6 +64,43 @@ h1, h2, h3, h4,
   outline-offset: 2px;
 }
 
+/* ---- Middle-earth message bubbles: gilded edge + soft star-glow ---- */
+[class*='bubble'] {
+  border: 1px solid rgba(232, 200, 119, 0.26) !important;
+  box-shadow: 0 0 14px rgba(232, 200, 119, 0.07), 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* ---- Composer / input: scroll-edge focus ring ---- */
+[class*='composer'] textarea,
+[class*='input'] textarea,
+[class*='input'] input {
+  border: 1px solid rgba(232, 200, 119, 0.28) !important;
+  border-radius: 12px;
+  transition: box-shadow 0.2s ease;
+}
+[class*='composer'] textarea:focus,
+[class*='input'] textarea:focus,
+[class*='input'] input:focus {
+  box-shadow: 0 0 0 2px rgba(232, 200, 119, 0.22), 0 0 20px rgba(232, 200, 119, 0.10);
+}
+
+/* ---- Buttons: gold gradient + hover glow ---- */
+[class*='button'] {
+  transition: box-shadow 0.18s ease, transform 0.12s ease;
+}
+[class*='button']:hover {
+  box-shadow: 0 0 16px rgba(232, 200, 119, 0.30);
+}
+[class*='button']:active {
+  transform: translateY(0.5px);
+}
+
+/* ---- Sidebar nav hover: gilded wash ---- */
+[class*='sidebar'] [class*='nav']:hover,
+[class*='nav-item']:hover {
+  box-shadow: inset 2px 0 0 #e8c877;
+}
+
 /* ---- Scrollbar thumb: star-gold ---- */
 *::-webkit-scrollbar-thumb {
   background: #46536f;
@@ -62,9 +110,17 @@ h1, h2, h3, h4,
   background: #667390;
 }
 
-/* ---- Star-sparkle separators & accents ---- */
+/* ---- Rune divider: hand-drawn SVG runes (self-made, zero copyright) ---- */
 hr, [class*='separator'], [class*='divider'] {
   border-color: rgba(232, 200, 119, 0.22) !important;
+}
+[class*='brand']::after, [class*='logo']::after {
+  content: '';
+  display: block;
+  height: 14px;
+  margin-top: 8px;
+  background: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='12' viewBox='0 0 120 12'%3E%3Cg fill='none' stroke='%23e8c877' stroke-width='1.3' opacity='0.55'%3E%3Cpath d='M10 1 L10 11 M10 11 L6 7 M10 11 L14 7'/%3E%3Ccircle cx='30' cy='6' r='4'/%3E%3Cpath d='M42 2 L42 10 M42 6 L48 6'/%3E%3Cpath d='M58 1 L54 7 L58 11 M58 1 L62 7 L58 11'/%3E%3Cpath d='M72 2 L72 10 M72 10 L68 7 M72 10 L76 7'/%3E%3Ccircle cx='92' cy='6' r='4'/%3E%3Cpath d='M104 1 L104 11 M104 6 L110 6'/%3E%3C/g%3E%3C/svg%3E") repeat-x left center/auto 12px;
+  opacity: 0.9;
 }
 
 /* Subtle golden top-light on raised surfaces (parchment-to-night) */

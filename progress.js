@@ -17,7 +17,7 @@ window.PROJECT_DATA = {
   tickets: [
     { id: "T1", title: "插件骨架 + 构建 + 冒烟测试（__ModuleLoader__ 闭包）", status: "done",
       owner: "ai", skills: ["research", "tdd"] },
-    { id: "T2", title: "背景（用户自制甘道夫图原图直出）+ 字体（Cinzel 自托管）", status: "done",
+    { id: "T2", title: "背景（用户自制甘道夫图原图直出）+ 字体（霞鹭文楷等宽本地）", status: "done",
       owner: "both", skills: ["ui-ux-pro-max", "design-taste-frontend"] },
     { id: "T3", title: "布局定制：消息左对齐/气泡卡片/设置面板加深/发送五芒星", status: "done",
       owner: "ai", skills: ["design-taste-frontend"] },

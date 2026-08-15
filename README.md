@@ -1,6 +1,6 @@
 # Gandalf — DeepSeek Harness 甘道夫主题插件
 
-> 甘道夫朝阳背景图 + 霞鹭文楷等宽/Cinzel 字体 + 中土风控件定制，界面配色保持 DSH 原生。
+> 甘道夫朝阳背景图 + 霞鹭文楷等宽字体 + 中土风控件定制，界面配色保持 DSH 原生。
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![GitHub stars](https://img.shields.io/github/stars/A-BigDog/Gandalf?style=social)](https://github.com/A-BigDog/Gandalf)
@@ -14,7 +14,7 @@
 - **控件定制**：「新会话」透明底、「回到底部」透明、设置面板深色实底、**选择框深色背景**（0.92 同设置面板）、发送按钮**五芒星图标**（自制 SVG）深色底
 - **配色**：全部保持 DSH 默认深色主题（面板半透明让背景透出）
 - **自动生效**：插件加载即套用，卸载恢复默认
-- **可读性**：WCAG AA 对比度 11/11 全过、bundle ~460KB（预算 1MB 内）
+- **可读性**：WCAG AA 对比度 11/11 全过、bundle ~406KB（预算 1MB 内）
 
 ## ⚠️ 中文字体（霞鹭文楷等宽）
 
@@ -63,7 +63,7 @@ pnpm dsh web --patch <你的Gandalf仓库绝对路径>/plugin/cordis.yml
 
 | 想改什么 | 改哪里 |
 |---|---|
-| 面板透明度（背景透出程度） | `src/client/tokens.ts`（23 个半透明覆盖，改表不改代码） |
+| 面板透明度（背景透出程度） | `src/client/tokens.ts`（29 个覆盖：表面透明度 + 文字 + 字体，改表不改代码） |
 | 背景图/字体/样式 | `src/client/theme.css.ts`（注入 CSS 层） |
 | 素材（换背景图/字体） | `assets/` → `node scripts/embed-assets.mjs` 重新内联 |
 | 冒烟测试 | `node tests/smoke.test.mjs` |
@@ -75,9 +75,8 @@ pnpm dsh web --patch <你的Gandalf仓库绝对路径>/plugin/cordis.yml
 | 素材 | 来源 | 许可 |
 |---|---|---|
 | 背景图（甘道夫） | 项目作者自制（AI 生成/自绘） | 自由使用 |
-| Cinzel 字体 | Google Fonts | SIL OFL 1.1 |
-| 金色星点 / 符文 SVG | 程序化生成 / 原创 | 原创 |
-| 中土风格文案（预览） | 原创 | 原创 |
+| 霞鹭文楷等宽 | 用户本地安装（GitHub lxgw/LxgwWenKai） | OFL 1.1 |
+| 五芒星图标 | 自制 SVG | 原创 |
 
 详见 [`docs/ASSETS.md`](docs/ASSETS.md)。
 
@@ -85,5 +84,4 @@ pnpm dsh web --patch <你的Gandalf仓库绝对路径>/plugin/cordis.yml
 
 - 只覆盖面板表面透明度（取 DSH 默认暗色值 + alpha），不覆盖任何主题颜色
 - 组件类名是 CSS Module hash——装饰选择器用 `[class*='local名']` 模糊匹配，真机验证为准
-- 跨插件协作只走 cordis 服务（`ctx.theme`），不 value-import（bundle purity gate）
-- 本插件是"进程内扩展"：主题选择不持久化到设置 schema，每次加载自动套用
+- 插件是纯 CSS 注入（零服务依赖），不调用 theme 服务——卸载自动恢复默认

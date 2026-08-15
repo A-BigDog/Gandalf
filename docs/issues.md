@@ -24,7 +24,6 @@
 - **发现方式**：headless measureText 全字体宽度一致（fallback 系统字体）。
 - **修复**：改为系统自带字体（用户已装"霞鹭文楷等宽 Light"，font-family 直接引用，零下载）。
 - **防复发**：开源主题不依赖 Google Fonts CDN；中文字体用系统字体或自托管。
-
 ### 4. CSS Modules hash 类名定位方法
 - **现象**：想改 DSH 组件样式但类名是 hash（`-g6s4G_flowItem` 等）。
 - **根因**：DSH 用 CSS Modules，类名格式 `[hash]_[local]`。

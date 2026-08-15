@@ -22,8 +22,8 @@ export const GANDALF_TOKENS: ThemeTokens = {
   // ---- Message bubbles (text safety floor) ----
   '--dsw-specific-bubble': 'rgba(44, 44, 46, 0.50)',
   '--dsw-specific-bubble-highlight': 'rgba(67, 69, 74, 0.66)',
-  '--dsw-specific-input-major': 'rgba(44, 44, 46, 0.92)',
-  '--dsw-specific-login-input': 'rgba(44, 44, 46, 0.92)',
+  '--dsw-specific-input-major': 'rgba(44, 44, 46, 0.85)',
+  '--dsw-specific-login-input': 'rgba(44, 44, 46, 0.85)',
   '--dsw-specific-menu': 'rgba(67, 69, 74, 0.92)',
   '--dsw-specific-selector': 'rgba(44, 44, 46, 0.55)',
 

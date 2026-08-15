@@ -70,9 +70,10 @@ body {
 }
 
 h1, h2, h3, h4,
-[class*='title'], [class*='brand'], [class*='heading'], [class*='Header'] {
-  font-family: 'Cinzel', var(--dsw-font-family, system-ui);
-  letter-spacing: 0.03em;
+[class*='title'], [class*='brand'], [class*='logo'], [class*='heading'],
+[class*='Header'], [class*='header'], [class*='panelTitle'], [class*='conversationTitle'] {
+  font-family: 'Cinzel', var(--dsw-font-family, system-ui) !important;
+  letter-spacing: 0.02em;
 }
 
 body[data-ds-dark-theme] {
@@ -92,29 +93,33 @@ body[data-ds-dark-theme] {
   --dsw-alias-state-warn-primary: #f59e0b;
   --dsw-specific-sidebar-nav-item-active-accent: rgba(255,255,255,0.6);
   --dsw-specific-bubble-highlight: rgba(67,69,74,0.78);
-  --dsw-alias-bg-base: rgba(21, 21, 23, 0.58);
-  --dsw-alias-bg-layer-1: rgba(35, 35, 36, 0.64);
-  --dsw-alias-bg-layer-2: rgba(44, 44, 46, 0.60);
-  --dsw-alias-bg-layer-3: rgba(53, 54, 56, 0.58);
-  --dsw-alias-bg-module-platform: rgba(53, 54, 56, 0.64);
-  --dsw-alias-bg-multi-select: rgba(33, 33, 35, 0.62);
+  --dsw-alias-bg-base: rgba(21, 21, 23, 0.45);
+  --dsw-alias-bg-layer-1: rgba(35, 35, 36, 0.55);
+  --dsw-alias-bg-layer-2: rgba(44, 44, 46, 0.50);
+  --dsw-alias-bg-layer-3: rgba(53, 54, 56, 0.50);
+  --dsw-alias-bg-module-platform: rgba(53, 54, 56, 0.55);
+  --dsw-alias-bg-multi-select: rgba(33, 33, 35, 0.52);
   --dsw-alias-bg-overlay: rgba(67, 69, 74, 0.92);
-  --dsw-specific-bubble: rgba(44, 44, 46, 0.82);
-  --dsw-specific-bubble-highlight: rgba(67, 69, 74, 0.78);
-  --dsw-specific-input-major: rgba(44, 44, 46, 0.85);
-  --dsw-specific-login-input: rgba(44, 44, 46, 0.85);
+  --dsw-specific-bubble: rgba(44, 44, 46, 0.70);
+  --dsw-specific-bubble-highlight: rgba(67, 69, 74, 0.72);
+  --dsw-specific-input-major: rgba(44, 44, 46, 0.80);
+  --dsw-specific-login-input: rgba(44, 44, 46, 0.80);
   --dsw-specific-menu: rgba(67, 69, 74, 0.92);
-  --dsw-specific-selector: rgba(44, 44, 46, 0.80);
-  --dsw-specific-sidebar-fill: rgba(27, 27, 28, 0.76);
-  --dsw-specific-sidebar-nav-item-active: rgba(67, 69, 74, 0.74);
-  --dsw-specific-sidebar-nav-item-hover: rgba(44, 44, 46, 0.78);
-  --dsw-specific-tip: rgba(44, 44, 46, 0.80);
+  --dsw-specific-selector: rgba(44, 44, 46, 0.74);
+  --dsw-specific-sidebar-fill: rgba(27, 27, 28, 0.70);
+  --dsw-specific-sidebar-nav-item-active: rgba(67, 69, 74, 0.68);
+  --dsw-specific-sidebar-nav-item-hover: rgba(44, 44, 46, 0.70);
+  --dsw-specific-tip: rgba(44, 44, 46, 0.74);
+  --dsw-alias-label-primary: #f9fafb;
+  --dsw-alias-label-secondary: #cfd3d6;
+  --dsw-alias-label-tertiary: #adb2b8;
+  --dsw-alias-label-caption: #adb2b8;
   --dsw-alias-markdown-code-block: rgba(27, 27, 28, 0.94);
-  --dsw-alias-markdown-code-block-banner: rgba(44, 44, 46, 0.92);
-  --dsw-alias-markdown-inline-code: rgba(44, 44, 46, 0.80);
+  --dsw-alias-markdown-code-block-banner: rgba(44, 44, 46, 0.88);
+  --dsw-alias-markdown-inline-code: rgba(44, 44, 46, 0.74);
   --dsw-alias-markdown-citation: rgba(35, 35, 36, 0.90);
   --dsw-alias-markdown-placeholder: rgba(35, 35, 36, 0.90);
-  --dsw-alias-markdown-tag: rgba(44, 44, 46, 0.80);
+  --dsw-alias-markdown-tag: rgba(44, 44, 46, 0.74);
 }
 </style>
 </head>

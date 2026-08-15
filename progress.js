@@ -1,86 +1,90 @@
 /* ============================================================
  * Gandalf 主题插件 — 项目进度
- * 项目：DeepSeek Harness (DSH) Web GUI 的中土魔幻风主题插件
+ * 项目：DeepSeek Harness (DSH) Web GUI 的甘道夫主题插件
  * 导师（game-mentor skill）自动维护此文件；仪表盘每 5 秒读取
  * ============================================================ */
 
 window.PROJECT_DATA = {
   project: "Gandalf（DSH 主题插件）",
-  updatedAt: "2026-08-14 12:00",  // 最后更新时间（导师每次更新）
+  updatedAt: "2026-08-14 18:30",  // 最后更新时间（导师每次更新）
   phase: {                        // 当前步骤（6 步流程）
-    index: 1,                     // 1定范围 2拆解 3实现 4试玩 5发布 6复盘
-    name: "定范围",
+    index: 3,                     // 1定范围 2拆解 3实现 4试玩 5发布 6复盘
+    name: "实现（真机已生效）",
     total: 6
   },
   progressPct: null,              // 留 null = 仪表盘按工单自动计算
 
-  tickets: [                      // 工单（MVP 拆解结果）
-    { id: "T1", title: "插件骨架 + gandalf 主题注册（换肤核心）", status: "done",
-      owner: "ai",                // 我做主体，你验收
-      skills: ["research", "tdd"] },
-    { id: "T2", title: "夜空星金色板 + 星空背景透出 + Cinzel 自托管", status: "done",
-      owner: "both",              // 素材方向用户拍板
-      skills: ["ui-ux-pro-max", "design-taste-frontend"] },
-    { id: "T3", title: "布局定制：气泡鎏金/输入聚焦环/符文/控件", status: "done",
-      owner: "ai",
-      skills: ["design-taste-frontend"] },
-    { id: "T4", title: "可读性验收：WCAG AA 对比度 11/11 + 性能预算", status: "done",
-      owner: "ai",
-      skills: ["tdd"] },
-    { id: "T5", title: "视觉评审闭环：截图 → Qwen-VL 评审 → 差距清零", status: "todo",
-      owner: "ai",
-      skills: ["ui-ux-pro-max"] },
-    { id: "T6", title: "打包 + README + 素材许可清单 + 开源", status: "todo",
-      owner: "both",
-      skills: ["research"] }
+  tickets: [
+    { id: "T1", title: "插件骨架 + 构建 + 冒烟测试（__ModuleLoader__ 闭包）", status: "done",
+      owner: "ai", skills: ["research", "tdd"] },
+    { id: "T2", title: "背景（用户自制甘道夫图原图直出）+ 字体（Cinzel 自托管）", status: "done",
+      owner: "both", skills: ["ui-ux-pro-max", "design-taste-frontend"] },
+    { id: "T3", title: "布局定制：消息左对齐/气泡卡片/设置面板加深/发送五芒星", status: "done",
+      owner: "ai", skills: ["design-taste-frontend"] },
+    { id: "T4", title: "可读性验收：WCAG AA 对比度 11/11 + 性能（bundle <500KB）", status: "done",
+      owner: "ai", skills: ["tdd"] },
+    { id: "T5", title: "真机验证：接线 profile patch + 用户验收（反复迭代 30+ 轮至满意）", status: "done",
+      owner: "both", skills: ["ui-ux-pro-max"] },
+    { id: "T6", title: "打包 + README + 素材许可清单 + 开源发布", status: "todo",
+      owner: "both", skills: ["research"] }
   ],
 
-  budget: {                       // 预算记账（导师每轮更新）
-    used: 0,
-    cap: 0,
-    currency: "¥",
-    period: "本月",
-    note: "纯软件项目，暂以时间计（小时）"
+  budget: {
+    used: 0, cap: 0, currency: "¥", period: "本月",
+    note: "纯软件项目，以时间计（大量真机调试轮次）"
   },
 
-  alerts: [                       // 导师提醒
-    "版权红线：背景图禁用《霍比特人》电影剧照（开源会侵权），已定免费可商用素材路线"
+  alerts: [
+    "Qwen-VL 视觉模型在当前环境不可用——已用像素分析+用户实机验收替代",
+    "T6 未完成：开源发布前需核对 README/素材许可清单"
   ],
 
   milestones: [
-    { date: "8/15", label: "换肤切片可看（主题在本机 GUI 生效）" },
-    { date: "8/17", label: "布局定制完成，视觉评审通过" },
+    { date: "8/14", label: "真机接线成功：甘道夫背景/字体/布局生效（用户验收通过）" },
     { date: "8/20", label: "开源发布（README + 打包说明）" }
   ],
 
-  roadmap: [                      // 版本路线图
-    { phase: "MVP",   target: "8/15", status: "todo", note: "换肤可生效：配色+字体+背景" },
-    { phase: "Alpha", target: "8/17", status: "todo", note: "布局定制+细节打磨" },
-    { phase: "Beta",  target: "8/19", status: "todo", note: "可读性/性能/QA 验收" },
-    { phase: "发布",  target: "8/20", status: "todo", note: "打包说明+README 开源" },
+  roadmap: [
+    { phase: "MVP",   target: "8/14", status: "done", note: "插件加载 + 背景/字体/布局生效（用户确认）" },
+    { phase: "Alpha", target: "8/15", status: "todo", note: "细节打磨（气泡/图标/设置面板等按用户反馈迭代）" },
+    { phase: "Beta",  target: "8/18", status: "todo", note: "多环境/明暗模式 QA" },
+    { phase: "发布",  target: "8/20", status: "todo", note: "打包说明 + README 开源" },
     { phase: "更新",  target: "",     status: "todo", note: "v1.1 社区反馈迭代" }
   ],
 
-  nextStep: "第 1 步·定范围：等 DSH 机制调研 + 素材调研完成 → 写 GDD 规格文档（卖点/范围/视觉数值表/不做清单）",
+  nextStep: "T6 打包收尾：完善 README（含最终功能清单）+ 素材许可核对 → 开源发布（用户自定节奏）",
 
-  issues: [],                     // 错误记录摘要（详见 docs/issues.md）
-  issuesSummary: "",
+  issues: [
+    "theme 服务路径（register/setTheme/inject）在真机 HMR 下不稳定 → 改用纯 CSS 注入（v10），稳定生效",
+    "@import 必须位于样式表顶部，否则浏览器忽略 → 已规避（改用系统字体/内联）",
+    "Google Fonts CDN 国内不可访问 → 全部字体改为系统自带/自托管",
+    "CSS Modules 类名是 hash——定位组件靠 [class*=local名] 模糊匹配 + aria-label/图标特征",
+    "组件 hash 类名跨构建不稳定——只依赖 local 后缀（如 toBottom/userRow/flowItem）"
+  ],
+  issuesSummary: "v9→v10 架构修正（纯 CSS）+ 多轮真机调试沉淀的定位方法",
 
-  ideas: [                        // backlog
+  ideas: [
     "开源后进 DSH 上游：作为官方主题插件 PR 提交",
-    "可选变体：白袍甘道夫银蓝配色（切换开关）"
+    "可选变体：白袍甘道夫银蓝配色（切换开关）",
+    "中文字体支持：用户本地安装霞鹭文楷等宽（已生效）"
   ],
 
-  readiness: {                    // 发布就绪度（第 4 步评估，<7 禁止发布）
-    score: 0,
-    gaps: []
+  readiness: {
+    score: 8,
+    gaps: [
+      "T6 开源打包未完成（README 需更新最终功能清单）",
+      "明暗双模式未全覆盖验证（当前强制深色观感）"
+    ]
   },
 
-  skills: {                       // skill 使用记录
+  skills: {
     used: [
-      { name: "game-mentor", when: "2026-08-14", note: "首次带路（方向：DSH 主题插件）" },
-      { name: "research", when: "2026-08-14", note: "DSH 主题/插件机制调研（子代理）" },
-      { name: "research", when: "2026-08-14", note: "免费中土风背景素材+字体调研（子代理）" }
+      { name: "game-mentor", when: "2026-08-14", note: "全程带路（方向多次迭代：夜空星金→晨曦金辉→回默认+定制）" },
+      { name: "research", when: "2026-08-14", note: "DSH 主题/插件机制调研（子代理×2）" },
+      { name: "research", when: "2026-08-14", note: "素材/字体调研 + 许可红线" },
+      { name: "tdd", when: "2026-08-14", note: "冒烟测试 + WCAG 对比度审计脚本" },
+      { name: "ui-ux-pro-max", when: "2026-08-14", note: "视觉降级（像素统计）+ 用户实机验收" },
+      { name: "design-taste-frontend", when: "2026-08-14", note: "布局/气泡/图标定制" }
     ]
   }
 };

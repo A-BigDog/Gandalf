@@ -7,33 +7,34 @@ window.__ModuleLoader__.load({
 		//#region src/client/tokens.ts
 		/** Translucent-surface overrides only; colors mirror the DSH default dark palette. */
 		const GANDALF_TOKENS = {
-			"--dsw-alias-bg-base": "rgba(21, 21, 23, 0.58)",
-			"--dsw-alias-bg-layer-1": "rgba(35, 35, 36, 0.64)",
-			"--dsw-alias-bg-layer-2": "rgba(44, 44, 46, 0.60)",
-			"--dsw-alias-bg-layer-3": "rgba(53, 54, 56, 0.58)",
-			"--dsw-alias-bg-module-platform": "rgba(53, 54, 56, 0.64)",
-			"--dsw-alias-bg-multi-select": "rgba(33, 33, 35, 0.62)",
+			"--dsw-alias-bg-base": "rgba(21, 21, 23, 0.08)",
+			"--dsw-alias-bg-layer-1": "rgba(35, 35, 36, 0.10)",
+			"--dsw-alias-bg-layer-2": "rgba(44, 44, 46, 0.10)",
+			"--dsw-alias-bg-layer-3": "rgba(53, 54, 56, 0.10)",
+			"--dsw-alias-bg-module-platform": "rgba(53, 54, 56, 0.12)",
+			"--dsw-alias-bg-multi-select": "rgba(33, 33, 35, 0.10)",
 			"--dsw-alias-bg-overlay": "rgba(67, 69, 74, 0.92)",
-			"--dsw-specific-bubble": "rgba(44, 44, 46, 0.82)",
-			"--dsw-specific-bubble-highlight": "rgba(67, 69, 74, 0.78)",
-			"--dsw-specific-input-major": "rgba(44, 44, 46, 0.85)",
-			"--dsw-specific-login-input": "rgba(44, 44, 46, 0.85)",
+			"--dsw-specific-bubble": "rgba(44, 44, 46, 0.50)",
+			"--dsw-specific-bubble-highlight": "rgba(67, 69, 74, 0.66)",
+			"--dsw-specific-input-major": "rgba(44, 44, 46, 0.76)",
+			"--dsw-specific-login-input": "rgba(44, 44, 46, 0.76)",
 			"--dsw-specific-menu": "rgba(67, 69, 74, 0.92)",
-			"--dsw-specific-selector": "rgba(44, 44, 46, 0.80)",
-			"--dsw-specific-sidebar-fill": "rgba(27, 27, 28, 0.76)",
-			"--dsw-specific-sidebar-nav-item-active": "rgba(67, 69, 74, 0.74)",
-			"--dsw-specific-sidebar-nav-item-hover": "rgba(44, 44, 46, 0.78)",
-			"--dsw-specific-tip": "rgba(44, 44, 46, 0.80)",
+			"--dsw-specific-selector": "rgba(44, 44, 46, 0.55)",
+			"--dsw-specific-sidebar-fill": "rgba(27, 27, 28, 0.30)",
+			"--dsw-specific-sidebar-nav-item-active": "rgba(67, 69, 74, 0.55)",
+			"--dsw-specific-sidebar-nav-item-hover": "rgba(44, 44, 46, 0.50)",
+			"--dsw-specific-tip": "rgba(44, 44, 46, 0.55)",
 			"--dsw-alias-label-primary": "#f9fafb",
 			"--dsw-alias-label-secondary": "#cfd3d6",
 			"--dsw-alias-label-tertiary": "#adb2b8",
 			"--dsw-alias-label-caption": "#adb2b8",
+			"--dsw-font-family": "'LXGW WenKai Mono Light', 'LXGW WenKai Mono', '霞鹜文楷等宽 Light', '霞鹭文楷', 'KaiTi', sans-serif",
 			"--dsw-alias-markdown-code-block": "rgba(27, 27, 28, 0.94)",
-			"--dsw-alias-markdown-code-block-banner": "rgba(44, 44, 46, 0.92)",
-			"--dsw-alias-markdown-inline-code": "rgba(44, 44, 46, 0.80)",
+			"--dsw-alias-markdown-code-block-banner": "rgba(44, 44, 46, 0.82)",
+			"--dsw-alias-markdown-inline-code": "rgba(44, 44, 46, 0.55)",
 			"--dsw-alias-markdown-citation": "rgba(35, 35, 36, 0.90)",
 			"--dsw-alias-markdown-placeholder": "rgba(35, 35, 36, 0.90)",
-			"--dsw-alias-markdown-tag": "rgba(44, 44, 46, 0.80)"
+			"--dsw-alias-markdown-tag": "rgba(44, 44, 46, 0.55)"
 		};
 		//#endregion
 		//#region src/client/theme.css.ts
@@ -74,10 +75,97 @@ body {
   unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-h1, h2, h3, h4,
-[class*='title'], [class*='brand'], [class*='heading'], [class*='Header'] {
-  font-family: 'Cinzel', var(--dsw-font-family, system-ui);
-  letter-spacing: 0.03em;
+/* ---- Global typeface handled via the --dsw-font-family token override
+   (see tokens.ts): one consistent stack everywhere. No per-element selectors
+   needed — the DSH base.css consumes the variable on body. ---- */
+
+/* Brand row: transparent backdrop (photo shows through); black icon. */
+[class*='brand'] {
+  background: transparent !important;
+  color: #000 !important;
+}
+
+/* Chat flow stays left-aligned to the available area: the message column is
+   centered via margin auto — break that so it hugs the sidebar when expanded
+   and the page edge when the sidebar is collapsed (user request). */
+[class*='scroll'] > [class*='column'] {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+/* "Back to bottom" button (aria-label 回到底部, class …_toBottom):
+   transparent background (user request). */
+[class*='toBottom'] {
+  background: transparent !important;
+}
+
+/* Message bubbles: each chat item becomes a rounded card (user request —
+   the default flow has no bubble chrome). Deeper veil per user request. */
+[class*='flowItem'] {
+  background: rgba(44, 44, 46, 0.78) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+  padding: 10px 14px !important;
+}
+
+/* User messages keep the DSH default (no bubble veil — user request);
+   assistant messages get the rounded card. */
+[class*='flowItem']:has([class*='userRow']) {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  align-self: stretch !important;
+}
+[class*='flowItem']:not(:has([class*='userRow'])) {
+  align-self: flex-start !important;
+  max-width: 85% !important;
+}
+
+/* New-session button: match the dark backdrop instead of the default white
+   primary (user request — the white block reads as a glitch over the photo). */
+[class*='newSession'] {
+  background: rgba(33, 33, 35, 0.88) !important;
+  color: #f9fafb !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+}
+
+/* Settings panel: deeper veil (user request — it was ~transparent). */
+[class*='panel'] {
+  background: rgba(44, 44, 46, 0.92) !important;
+}
+
+/* Send button: replace the plain arrow with a five-pointed star
+   (self-made SVG mask, solid pentagram — user choice). */
+[class*='primary'] svg {
+  display: none !important;
+}
+[class*='primary']::after {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Cpath d='M8 1 L9.8 6.2 L15.2 6.4 L10.9 9.7 L12.4 15 L8 11.6 L3.6 15 L5.1 9.7 L0.8 6.4 L6.2 6.2 Z'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Cpath d='M8 1 L9.8 6.2 L15.2 6.4 L10.9 9.7 L12.4 15 L8 11.6 L3.6 15 L5.1 9.7 L0.8 6.4 L6.2 6.2 Z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+/* Send button background: dark (no DSH blue — user request). */
+[class*='primary'] {
+  background: rgba(33, 33, 35, 0.92) !important;
+  color: #f9fafb !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  position: relative !important;
+}
+[class*='primary']::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Cpath d='M8 1 L9.8 6.2 L15.2 6.4 L10.9 9.7 L12.4 15 L8 11.6 L3.6 15 L5.1 9.7 L0.8 6.4 L6.2 6.2 Z'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Cpath d='M8 1 L9.8 6.2 L15.2 6.4 L10.9 9.7 L12.4 15 L8 11.6 L3.6 15 L5.1 9.7 L0.8 6.4 L6.2 6.2 Z'/%3E%3C/svg%3E") center/contain no-repeat;
 }
 `;
 		//#endregion

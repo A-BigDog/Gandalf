@@ -15,13 +15,12 @@
 
 ## 字体
 
-| 文件 | 字体 | 来源 | 许可 | 状态 |
+| 字体 | 角色 | 来源 | 许可 | 状态 |
 |---|---|---|---|---|
-| `plugin/assets/cinzel-a.woff2` | Cinzel（拉丁分片） | Google Fonts CDN | SIL OFL 1.1（免署名） | ✅ 已入库 |
-| `plugin/assets/cinzel-b.woff2` | Cinzel（扩展分片） | Google Fonts CDN | SIL OFL 1.1 | ✅ 已入库 |
-| `plugin/assets/cinzel.css` | 分片映射（开发参考） | Google Fonts CSS | — | ✅ |
+| 霞鹭文楷等宽（LXGW WenKai Mono） | 全局正文/标题 | 用户本地安装（GitHub lxgw/LxgwWenKai） | SIL OFL 1.1 | ✅ 引用（未打包） |
+| 代码字体（SF Mono/JetBrains Mono/Consolas） | 代码块/终端 | DSH 默认 | — | ✅ 保持默认 |
 
-> OFL 要求：保留许可声明。已内联进 `src/client/assets.generated.ts`（base64）。
+> Cinzel 已按用户要求移除（不再打包）。
 
 ## 原创元素
 

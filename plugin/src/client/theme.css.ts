@@ -6,7 +6,7 @@
  * ② 全局字体（霞鹭文楷等宽本地 + Cinzel 英文，走 --dsw-font-family）
  * ③ 布局/控件微调（消息左对齐、气泡卡片、面板加深、图标替换）
  */
-import { BG_IMAGE, CINZEL_A, CINZEL_B } from './assets.generated.ts'
+import { BG_IMAGE } from './assets.generated.ts'
 
 export const GANDALF_CSS = `
 /* ============ 1. 基础 ============ */
@@ -23,23 +23,8 @@ body {
 
 /* ============ 2. 字体 ============ */
 
-/* Cinzel 标题/英文（OFL 1.1，自托管 base64；中文走霞鹭文楷等宽，
-   由 --dsw-font-family token 统一驱动——见 tokens.ts） */
-@font-face {
-  font-family: 'Cinzel';
-  src: url(${CINZEL_A}) format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Cinzel';
-  src: url(${CINZEL_B}) format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
+/* 全局字体由 --dsw-font-family token 驱动（见 tokens.ts）：中文走霞鹭
+   文楷等宽（本地），代码区保持 DSH 默认等宽。Cinzel 已按用户要求移除。 */
 
 /* ============ 3. 布局 ============ */
 

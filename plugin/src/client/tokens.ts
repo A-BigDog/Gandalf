@@ -39,8 +39,7 @@ export const GANDALF_TOKENS: ThemeTokens = {
   '--dsw-alias-label-tertiary': '#adb2b8',
   '--dsw-alias-label-caption': '#adb2b8',
 
-  // ---- Global typeface (user request: LXGW WenKai Mono — 霞鹭文楷等宽,
-  // OFL open font, installed locally; fallbacks keep it robust) ----
+  // ---- Global typeface (LXGW WenKai Mono — 霞鹭文楷等宽, OFL, local; Cinzel removed per user) ----
   '--dsw-font-family': "'LXGW WenKai Mono Light', 'LXGW WenKai Mono', '霞鹜文楷等宽 Light', '霞鹭文楷', 'KaiTi', sans-serif",
 
   // ---- Code / markdown (near-opaque: readability first) ----

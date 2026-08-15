@@ -45,8 +45,8 @@ moduleExports.apply(ctx)
 
 if (!styleEl.appended) throw new Error('SMOKE FAIL: stylesheet not appended')
 if (styleEl.id !== 'gandalf-theme-styles') throw new Error(`SMOKE FAIL: style id = ${styleEl.id}`)
-if (!styleEl.textContent.includes('Cinzel')) throw new Error('SMOKE FAIL: css missing font faces')
 if (!styleEl.textContent.includes('--dsw-alias-bg-base')) throw new Error('SMOKE FAIL: css missing token overrides')
+if (!styleEl.textContent.includes('url(')) throw new Error('SMOKE FAIL: css missing background image')
 if (styleEl.dataset.plugin !== 'gandalf-theme') throw new Error(`SMOKE FAIL: data-plugin = ${styleEl.dataset.plugin}`)
 const tokenLines = (styleEl.textContent.match(/--dsw-[a-z-]+/g) || []).length
 if (tokenLines < 20) throw new Error(`SMOKE FAIL: only ${tokenLines} token references`)

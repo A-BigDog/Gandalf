@@ -24,6 +24,10 @@ window.__ModuleLoader__.load({
 			"--dsw-specific-sidebar-nav-item-active": "rgba(67, 69, 74, 0.74)",
 			"--dsw-specific-sidebar-nav-item-hover": "rgba(44, 44, 46, 0.78)",
 			"--dsw-specific-tip": "rgba(44, 44, 46, 0.80)",
+			"--dsw-alias-label-primary": "#f9fafb",
+			"--dsw-alias-label-secondary": "#cfd3d6",
+			"--dsw-alias-label-tertiary": "#adb2b8",
+			"--dsw-alias-label-caption": "#adb2b8",
 			"--dsw-alias-markdown-code-block": "rgba(27, 27, 28, 0.94)",
 			"--dsw-alias-markdown-code-block-banner": "rgba(44, 44, 46, 0.92)",
 			"--dsw-alias-markdown-inline-code": "rgba(44, 44, 46, 0.80)",
@@ -79,31 +83,23 @@ h1, h2, h3, h4,
 		//#endregion
 		//#region src/client/index.ts
 		const name = "gandalf-theme";
-		/** Required services: the theme registry provided by dsh-client-ui-theme. */
-		const inject = ["theme"];
+		/** No service dependencies — nothing to wait for, nothing to re-resolve. */
+		const inject = [];
 		const STYLE_TAG_ID = "gandalf-theme-styles";
+		/** Build the body-level variable override block from the token table. */
+		function tokenOverridesCss() {
+			return `body {\n${Object.entries(GANDALF_TOKENS).map(([name, value]) => `  ${name}: ${value} !important;`).join("\n")}\n}`;
+		}
 		/**
 		* Client plugin body.
-		* @param ctx - client cordis context (ctx.theme ready after inject).
+		* @param ctx - client cordis context.
 		*/
-		function apply(ctx) {
-			const disposeTheme = ctx.theme.register({
-				id: "gandalf",
-				colorScheme: "dark",
-				tokens: GANDALF_TOKENS
-			});
+		function apply(_ctx) {
 			const style = document.createElement("style");
 			style.id = STYLE_TAG_ID;
 			style.dataset.plugin = name;
-			style.textContent = GANDALF_CSS;
+			style.textContent = tokenOverridesCss() + "\n" + GANDALF_CSS;
 			(document.head ?? document.documentElement).appendChild(style);
-			try {
-				ctx.theme.setTheme("gandalf");
-			} catch {}
-			ctx.effect(() => {
-				disposeTheme();
-				style.remove();
-			}, "gandalf-theme: cleanup");
 		}
 		//#endregion
 		exports.apply = apply;

@@ -33,6 +33,12 @@ export const GANDALF_TOKENS: ThemeTokens = {
   '--dsw-specific-sidebar-nav-item-hover': 'rgba(44, 44, 46, 0.78)',
   '--dsw-specific-tip': 'rgba(44, 44, 46, 0.80)',
 
+  // ---- Text (light-on-dark safety for any color-scheme mode) ----
+  '--dsw-alias-label-primary': '#f9fafb',
+  '--dsw-alias-label-secondary': '#cfd3d6',
+  '--dsw-alias-label-tertiary': '#adb2b8',
+  '--dsw-alias-label-caption': '#adb2b8',
+
   // ---- Code / markdown (near-opaque: readability first) ----
   '--dsw-alias-markdown-code-block': 'rgba(27, 27, 28, 0.94)',
   '--dsw-alias-markdown-code-block-banner': 'rgba(44, 44, 46, 0.92)',

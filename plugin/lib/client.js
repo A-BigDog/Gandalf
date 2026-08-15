@@ -13,11 +13,11 @@ window.__ModuleLoader__.load({
 			"--dsw-alias-bg-layer-3": "rgba(53, 54, 56, 0.10)",
 			"--dsw-alias-bg-module-platform": "rgba(53, 54, 56, 0.12)",
 			"--dsw-alias-bg-multi-select": "rgba(33, 33, 35, 0.10)",
-			"--dsw-alias-bg-overlay": "rgba(67, 69, 74, 0.98)",
+			"--dsw-alias-bg-overlay": "#2c2c2e",
 			"--dsw-specific-bubble": "rgba(44, 44, 46, 0.50)",
 			"--dsw-specific-bubble-highlight": "rgba(67, 69, 74, 0.66)",
-			"--dsw-specific-input-major": "rgba(44, 44, 46, 0.76)",
-			"--dsw-specific-login-input": "rgba(44, 44, 46, 0.76)",
+			"--dsw-specific-input-major": "rgba(44, 44, 46, 0.92)",
+			"--dsw-specific-login-input": "rgba(44, 44, 46, 0.92)",
 			"--dsw-specific-menu": "rgba(67, 69, 74, 0.92)",
 			"--dsw-specific-selector": "rgba(44, 44, 46, 0.55)",
 			"--dsw-specific-sidebar-fill": "rgba(27, 27, 28, 0.30)",
@@ -132,17 +132,25 @@ body {
   background: rgba(44, 44, 46, 0.92) !important;
 }
 
-/* 发送按钮：五芒星图标（自制 SVG mask，居中）+ 深色底 */
-[class*='primary'] {
+/* 选择框提交按钮：黑色背景（用户要求） */
+[class*='card'] [class*='primary'] {
+  background: #000 !important;
+  color: #f9fafb !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+}
+
+/* 发送按钮（输入区内）：五芒星图标（自制 SVG mask，居中）+ 深色底。
+   限定 composer 容器——选择框等其它 primary 按钮保持 DSH 默认。 */
+[class*='composer'] [class*='primary'] {
   background: rgba(33, 33, 35, 0.92) !important;
   color: #f9fafb !important;
   border: 1px solid rgba(255, 255, 255, 0.14) !important;
   position: relative !important;
 }
-[class*='primary'] svg {
+[class*='composer'] [class*='primary'] svg {
   display: none !important;
 }
-[class*='primary']::after {
+[class*='composer'] [class*='primary']::after {
   content: '';
   position: absolute;
   top: 50%;

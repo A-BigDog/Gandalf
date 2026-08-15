@@ -94,17 +94,18 @@ body {
   background: rgba(44, 44, 46, 0.92) !important;
 }
 
-/* 发送按钮：五芒星图标（自制 SVG mask，居中）+ 深色底 */
-[class*='primary'] {
+/* 发送按钮（输入区内）：五芒星图标（自制 SVG mask，居中）+ 深色底。
+   限定 composer 容器——选择框等其它 primary 按钮保持 DSH 默认。 */
+[class*='composer'] [class*='primary'] {
   background: rgba(33, 33, 35, 0.92) !important;
   color: #f9fafb !important;
   border: 1px solid rgba(255, 255, 255, 0.14) !important;
   position: relative !important;
 }
-[class*='primary'] svg {
+[class*='composer'] [class*='primary'] svg {
   display: none !important;
 }
-[class*='primary']::after {
+[class*='composer'] [class*='primary']::after {
   content: '';
   position: absolute;
   top: 50%;

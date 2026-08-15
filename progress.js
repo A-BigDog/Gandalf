@@ -18,13 +18,13 @@ window.PROJECT_DATA = {
     { id: "T1", title: "插件骨架 + gandalf 主题注册（换肤核心）", status: "done",
       owner: "ai",                // 我做主体，你验收
       skills: ["research", "tdd"] },
-    { id: "T2", title: "背景图 + Cinzel 字体接入（深色遮罩保可读）", status: "todo",
-      owner: "both",              // 素材需你最终点头
+    { id: "T2", title: "夜空星金色板 + 星空背景透出 + Cinzel 自托管", status: "done",
+      owner: "both",              // 素材方向用户拍板
       skills: ["ui-ux-pro-max", "design-taste-frontend"] },
-    { id: "T3", title: "布局定制：侧边栏/聊天气泡/输入区/符文装饰", status: "todo",
+    { id: "T3", title: "布局定制：气泡鎏金/输入聚焦环/符文/控件", status: "done",
       owner: "ai",
       skills: ["design-taste-frontend"] },
-    { id: "T4", title: "可读性验收：WCAG AA 对比度 + 明暗双模式", status: "todo",
+    { id: "T4", title: "可读性验收：WCAG AA 对比度 11/11 + 性能预算", status: "done",
       owner: "ai",
       skills: ["tdd"] },
     { id: "T5", title: "视觉评审闭环：截图 → Qwen-VL 评审 → 差距清零", status: "todo",

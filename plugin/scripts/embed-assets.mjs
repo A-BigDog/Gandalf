@@ -11,7 +11,7 @@ import { dirname, join } from 'node:path'
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const b64 = f => readFileSync(join(root, 'assets', f)).toString('base64')
 
-const bg = b64('bg-night-sky.jpg')
+const bg = b64('bg-gandalf.jpg')
 const cinzelA = b64('cinzel-a.woff2')
 const cinzelB = b64('cinzel-b.woff2')
 

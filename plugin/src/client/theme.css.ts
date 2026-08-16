@@ -41,13 +41,14 @@ body {
   margin-right: auto !important;
 }
 
-/* AI 消息气泡卡片（你的消息保持 DSH 默认无遮罩） */
+/* AI 消息气泡卡片（白色遮罩） */
 [class*='flowItem'] {
   background: rgb(255, 255, 255) !important;
   border: 1px solid rgba(0, 0, 0, 0.12) !important;
   border-radius: 14px !important;
   padding: 10px 14px !important;
 }
+/* 用户消息：DSH 默认（无遮罩） */
 [class*='flowItem']:has([class*='userRow']) {
   background: transparent !important;
   border: none !important;
@@ -62,9 +63,9 @@ body {
 
 /* ============ 4. 控件 ============ */
 
-/* "回到底部"按钮：透明背景 */
+/* "回到底部"按钮：白色背景（浅色主题） */
 [class*='toBottom'] {
-  background: transparent !important;
+  background: rgb(255, 255, 255) !important;
 }
 
 /* 新会话按钮：透明底 + 白字 + 细边框 */

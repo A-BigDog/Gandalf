@@ -14,24 +14,24 @@ window.__ModuleLoader__.load({
 			"--dsw-alias-bg-module-platform": "rgba(255, 255, 255, 0)",
 			"--dsw-alias-bg-multi-select": "rgba(255, 255, 255, 0)",
 			"--dsw-alias-bg-overlay": "#ffffff",
-			"--dsw-specific-bubble": "rgb(255, 255, 255)",
-			"--dsw-specific-bubble-highlight": "rgba(255, 255, 255, 0.6)",
+			"--dsw-specific-bubble": "rgba(255, 255, 255, 0)",
+			"--dsw-specific-bubble-highlight": "rgb(255, 255, 255)",
 			"--dsw-specific-input-major": "rgb(255, 255, 255)",
 			"--dsw-specific-login-input": "rgb(255, 255, 255)",
-			"--dsw-specific-menu": "rgba(255, 255, 255, 0.6)",
-			"--dsw-specific-selector": "rgba(255, 255, 255, 0.6)",
-			"--dsw-specific-sidebar-fill": "rgb(255, 255, 255)",
-			"--dsw-specific-sidebar-nav-item-active": "rgba(255, 255, 255, 0.6)",
-			"--dsw-specific-sidebar-nav-item-hover": "rgba(255, 255, 255, 0.6)",
-			"--dsw-specific-tip": "rgba(255, 255, 255, 0.6)",
+			"--dsw-specific-menu": "rgb(255, 255, 255)",
+			"--dsw-specific-selector": "rgb(255, 255, 255)",
+			"--dsw-specific-sidebar-fill": "rgba(255, 255, 255, 0)",
+			"--dsw-specific-sidebar-nav-item-active": "rgb(255, 255, 255)",
+			"--dsw-specific-sidebar-nav-item-hover": "rgb(255, 255, 255)",
+			"--dsw-specific-tip": "rgb(255, 255, 255)",
 			"--dsw-font-family": "'LXGW WenKai Mono Light', 'LXGW WenKai Mono', '霞鹜文楷等宽 Light', '霞鹭文楷', 'KaiTi', sans-serif",
 			"--dsw-alias-separator-primary": "#555555",
-			"--dsw-alias-markdown-code-block": "rgba(255, 255, 255, 0.6)",
-			"--dsw-alias-markdown-code-block-banner": "rgba(255, 255, 255, 0.92)",
-			"--dsw-alias-markdown-inline-code": "rgba(255, 255, 255, 0.8)",
-			"--dsw-alias-markdown-citation": "rgba(255, 255, 255, 0.6)",
-			"--dsw-alias-markdown-placeholder": "rgba(255, 255, 255, 0.6)",
-			"--dsw-alias-markdown-tag": "rgba(255, 255, 255, 0.7)"
+			"--dsw-alias-markdown-code-block": "rgb(255, 255, 255)",
+			"--dsw-alias-markdown-code-block-banner": "rgb(255, 255, 255)",
+			"--dsw-alias-markdown-inline-code": "rgb(255, 255, 255)",
+			"--dsw-alias-markdown-citation": "rgb(255, 255, 255)",
+			"--dsw-alias-markdown-placeholder": "rgb(255, 255, 255)",
+			"--dsw-alias-markdown-tag": "rgb(255, 255, 255)"
 		};
 		//#endregion
 		//#region src/client/theme.css.ts
@@ -76,13 +76,14 @@ body {
   margin-right: auto !important;
 }
 
-/* AI 消息气泡卡片（你的消息保持 DSH 默认无遮罩） */
+/* AI 消息气泡卡片（白色遮罩） */
 [class*='flowItem'] {
   background: rgb(255, 255, 255) !important;
   border: 1px solid rgba(0, 0, 0, 0.12) !important;
   border-radius: 14px !important;
   padding: 10px 14px !important;
 }
+/* 用户消息：DSH 默认（无遮罩） */
 [class*='flowItem']:has([class*='userRow']) {
   background: transparent !important;
   border: none !important;
@@ -97,9 +98,9 @@ body {
 
 /* ============ 4. 控件 ============ */
 
-/* "回到底部"按钮：透明背景 */
+/* "回到底部"按钮：白色背景（浅色主题） */
 [class*='toBottom'] {
-  background: transparent !important;
+  background: rgb(255, 255, 255) !important;
 }
 
 /* 新会话按钮：透明底 + 白字 + 细边框 */

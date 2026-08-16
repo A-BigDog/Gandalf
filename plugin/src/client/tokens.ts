@@ -20,18 +20,18 @@ export const GANDALF_TOKENS: ThemeTokens = {
   '--dsw-alias-bg-overlay': '#ffffff',
 
   // ---- Message bubbles (text safety floor) ----
-  '--dsw-specific-bubble': 'rgb(255, 255, 255)',
-  '--dsw-specific-bubble-highlight': 'rgba(255, 255, 255, 0.6)',
+  '--dsw-specific-bubble': 'rgba(255, 255, 255, 0)',
+  '--dsw-specific-bubble-highlight': 'rgb(255, 255, 255)',
   '--dsw-specific-input-major': 'rgb(255, 255, 255)',
   '--dsw-specific-login-input': 'rgb(255, 255, 255)',
-  '--dsw-specific-menu': 'rgba(255, 255, 255, 0.6)',
-  '--dsw-specific-selector': 'rgba(255, 255, 255, 0.6)',
+  '--dsw-specific-menu': 'rgb(255, 255, 255)',
+  '--dsw-specific-selector': 'rgb(255, 255, 255)',
 
   // ---- Sidebar (nav readability) ----
-  '--dsw-specific-sidebar-fill': 'rgb(255, 255, 255)',
-  '--dsw-specific-sidebar-nav-item-active': 'rgba(255, 255, 255, 0.6)',
-  '--dsw-specific-sidebar-nav-item-hover': 'rgba(255, 255, 255, 0.6)',
-  '--dsw-specific-tip': 'rgba(255, 255, 255, 0.6)',
+  '--dsw-specific-sidebar-fill': 'rgba(255, 255, 255, 0)',
+  '--dsw-specific-sidebar-nav-item-active': 'rgb(255, 255, 255)',
+  '--dsw-specific-sidebar-nav-item-hover': 'rgb(255, 255, 255)',
+  '--dsw-specific-tip': 'rgb(255, 255, 255)',
 
   // ---- Text (light-on-dark safety for any color-scheme mode) ----
 
@@ -40,13 +40,17 @@ export const GANDALF_TOKENS: ThemeTokens = {
 
   '--dsw-alias-separator-primary': '#555555',
   // ---- Code / markdown (near-opaque: readability first) ----
-  '--dsw-alias-markdown-code-block': 'rgba(255, 255, 255, 0.6)',
-  '--dsw-alias-markdown-code-block-banner': 'rgba(255, 255, 255, 0.92)',
-  '--dsw-alias-markdown-inline-code': 'rgba(255, 255, 255, 0.8)',
-  '--dsw-alias-markdown-citation': 'rgba(255, 255, 255, 0.6)',
-  '--dsw-alias-markdown-placeholder': 'rgba(255, 255, 255, 0.6)',
-  '--dsw-alias-markdown-tag': 'rgba(255, 255, 255, 0.7)',
+  '--dsw-alias-markdown-code-block': 'rgb(255, 255, 255)',
+  '--dsw-alias-markdown-code-block-banner': 'rgb(255, 255, 255)',
+  '--dsw-alias-markdown-inline-code': 'rgb(255, 255, 255)',
+  '--dsw-alias-markdown-citation': 'rgb(255, 255, 255)',
+  '--dsw-alias-markdown-placeholder': 'rgb(255, 255, 255)',
+  '--dsw-alias-markdown-tag': 'rgb(255, 255, 255)',
 }
+
+
+
+
 
 
 

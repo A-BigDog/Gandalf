@@ -30,7 +30,16 @@
 
 前置：DSH 源码 checkout（`pnpm install` 完成）。
 
-### 1. 构建插件
+### 0. 一键安装（推荐）
+
+```bat
+install.cmd        # 自动构建 + 注册到 ~/.dsh/profiles/web/cordis.patch.yml
+```
+
+> 双击或在命令行运行即可。脚本自动定位 tsdown（`TSDOWN` 环境变量 → `PATH` → 仓库上层 `node_modules`），找不到时按提示 `set TSDOWN=<checkout>\node_modules\.bin\tsdown.cmd`。完成后重启 `dsh web` 生效。
+> 卸载：`uninstall.cmd`（移除注册，恢复默认外观）。
+
+### 1. 手动构建插件
 
 ```sh
 cd plugin
@@ -40,7 +49,7 @@ node tests\smoke.test.mjs                          # 冒烟测试（可选但推
 
 > `build.cmd` 是双击一键构建。tsdown 查找顺序：环境变量 `TSDOWN` → `PATH` → 从脚本目录向上找 `node_modules\.bin\tsdown.cmd`。若都找不到，先 `set TSDOWN=<checkout>\node_modules\.bin\tsdown.cmd`。
 
-### 2. 加载插件（二选一）
+### 2. 手动加载插件（二选一）
 
 **A. 临时加载**（推荐先验证）：
 
@@ -64,18 +73,23 @@ pnpm dsh web --patch <你的Gandalf仓库绝对路径>/plugin/cordis.yml
 
 ## 🗑️ 卸载
 
-从 patch 文件移除 gandalf-theme 的 insert 行 → 重启 `dsh web` → 恢复默认外观。
+```bat
+uninstall.cmd    # 一键：移除 ~/.dsh/profiles/web/cordis.patch.yml 中的注册
+```
+
+或手动：从 patch 文件移除 gandalf-theme 的 insert 行 → 重启 `dsh web` → 恢复默认外观。
 
 ## 🛠️ 开发
 
 | 想改什么 | 改哪里 |
 |---|---|
+| 一键安装/卸载 | `install.cmd` / `uninstall.cmd`（调 `plugin/scripts/theme-patch.ps1` 注册） |
 | 面板透明度（背景透出程度） | `src/client/tokens.ts`（29 个覆盖：表面透明度 + 文字 + 字体，改表不改代码） |
 | 深色主题表面颜色/背景图透出度 | `src/client/theme.css.ts`（`body[data-ds-dark-theme]` 块，改数值即可） |
 | 背景图/字体/样式 | `src/client/theme.css.ts`（注入 CSS 层） |
 | 素材（换背景图/字体） | `assets/` → `node scripts/embed-assets.mjs` 重新内联 |
 | 冒烟测试 | `node tests/smoke.test.mjs` |
-| 对比度审计 | `node scripts/check-preview.mjs`（WCAG AA，审计运行中的 GUI） |
+| 对比度审计 | `node scripts/check-preview.mjs`（WCAG AA，浅色/深色双主题审计运行中的 GUI） |
 | 真机验证 | `node scripts/verify-live.mjs`（headless 检查插件是否生效） |
 
 ## 📄 素材与许可

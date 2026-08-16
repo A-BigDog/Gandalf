@@ -18,7 +18,7 @@
 - **控件定制**：「新会话」透明底、「回到底部」透明、发送按钮五芒星图标（自制 SVG）、设置面板/选择框背景可调
 - **配色**：浅色/深色双主题适配——浅色为白色半透明面板 + 背景图透出；深色为 DSH 深色调色板实色表面（背景图以半透明保留氛围），文字沿用 DSH 各主题默认色
 - **自动生效**：插件加载即套用，卸载恢复默认
-- **可读性**：WCAG AA 对比度 11/11 全过、bundle ~406KB（预算 1MB 内）
+- **可读性**：WCAG AA 对比度 ≥4.5:1（浅色/深色双主题审计通过，`node scripts/check-preview.mjs`）、bundle ~406KB（预算 1MB 内）
 
 ## ⚠️ 中文字体（霞鹭文楷等宽）
 
@@ -34,9 +34,11 @@
 
 ```sh
 cd plugin
-"<checkout>\node_modules\.bin\tsdown.cmd"        # 产出 lib/index.js + lib/client.js
-node tests\smoke.test.mjs                         # 冒烟测试（可选但推荐）
+node_modules\.bin\tsdown.cmd                      # 产出 lib/index.js + lib/client.js
+node tests\smoke.test.mjs                          # 冒烟测试（可选但推荐）
 ```
+
+> `build.cmd` 是双击一键构建。tsdown 查找顺序：环境变量 `TSDOWN` → `PATH` → 从脚本目录向上找 `node_modules\.bin\tsdown.cmd`。若都找不到，先 `set TSDOWN=<checkout>\node_modules\.bin\tsdown.cmd`。
 
 ### 2. 加载插件（二选一）
 
@@ -47,12 +49,13 @@ cd <checkout根>
 pnpm dsh web --patch <你的Gandalf仓库绝对路径>/plugin/cordis.yml
 ```
 
-**B. 永久加载**：把以下 insert 行加入 `~/.dsh/profiles/web/cordis.patch.yml`（路径替换为你的仓库绝对路径）：
+**B. 永久加载**：把以下 insert 行加入 `~/.dsh/profiles/web/cordis.patch.yml`（将 `name` 换成你实际的加载方式）：
 
 ```yaml
 - insert:
     - id: gandalf-theme
-      name: '<你的Gandalf仓库绝对路径>/plugin/lib/index.js'
+      name: gandalf-theme        # 已通过 pnpm workspace / node_modules 链接
+      # 或绝对路径：name: 'C:\path\to\Gandalf\plugin\lib\index.js'
 ```
 
 ### 3. 生效
@@ -89,7 +92,9 @@ pnpm dsh web --patch <你的Gandalf仓库绝对路径>/plugin/cordis.yml
 
 - 只覆盖面板表面透明度（取 DSH 默认暗色值 + alpha），不覆盖任何主题颜色
 - 深色主题（`body[data-ds-dark-theme]`）单独有一套表面覆盖：面板/气泡/输入框用 DSH 深色调色板实色，背景层半透明保留背景图氛围——改 `theme.css.ts` 深色块的数值即可
+- 深色块颜色引用 DSH 静态 token（`--dsw-static-neutral-bluish-*`）而非硬编码，DSH 升级调色板时自动跟随
 - 用户消息气泡（`:has([class*='userRow'])`）始终保持 DSH 默认，深色下同样不被覆盖
 - 组件类名是 CSS Module hash——装饰选择器用 `[class*='local名']` 模糊匹配，真机验证为准
 - 插件是纯 CSS 注入（零服务依赖），不调用 theme 服务——卸载自动恢复默认
+- CI（GitHub Actions）会在每次 push 构建 + 冒烟 + 校验深色适配，防止回归
 

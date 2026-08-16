@@ -51,4 +51,14 @@ if (styleEl.dataset.plugin !== 'gandalf-theme') throw new Error(`SMOKE FAIL: dat
 const tokenLines = (styleEl.textContent.match(/--dsw-[a-z-]+/g) || []).length
 if (tokenLines < 20) throw new Error(`SMOKE FAIL: only ${tokenLines} token references`)
 
-console.log(`SMOKE OK: loader contract + ${tokenLines} token overrides + stylesheet injected`)
+// --- Dark theme adapter (regression: 深色下白底白字不可读) ---
+const darkBlock = styleEl.textContent.includes('body[data-ds-dark-theme]')
+if (!darkBlock) throw new Error('SMOKE FAIL: dark theme adapter block missing')
+const darkSurfaces = (styleEl.textContent.match(/body\[data-ds-dark-theme\]\s*\{[\s\S]*?\}/g) || [])
+  .map(m => m.length).reduce((a, b) => a + b, 0)
+if (darkSurfaces < 300) throw new Error(`SMOKE FAIL: dark theme surface overrides too small (${darkSurfaces} chars)`)
+// 深色下不允许把表面钉成纯白（回归：面板白底 + DSH 白字 = 不可读）
+const whiteOnDark = /body\[data-ds-dark-theme\][\s\S]*?rgb\(\s*255\s*,\s*255\s*,\s*255/.test(styleEl.textContent)
+if (whiteOnDark) throw new Error('SMOKE FAIL: dark theme block still hardcodes pure white surfaces')
+
+console.log(`SMOKE OK: loader contract + ${tokenLines} token overrides + dark adapter + stylesheet injected`)

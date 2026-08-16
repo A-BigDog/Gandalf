@@ -79,6 +79,32 @@ const sleep = ms => new Promise(r => setTimeout(r, ms))
   })()`
   const r = await send('Runtime.evaluate', { expression: evalExpr, returnByValue: true })
   console.log(JSON.stringify(r.result.value, null, 2))
+
+  // Dark-theme spot check: toggle body[data-ds-dark-theme], read computed bg,
+  // then restore. Guards the regression where dark surfaces stayed white.
+  const darkExpr = `(() => {
+    const body = document.body
+    body.setAttribute('data-ds-dark-theme', '')
+    const bg = getComputedStyle(body).backgroundColor
+    const sidebar = getComputedStyle(document.querySelector('[class*="sidebarCol"]') ?? body).backgroundColor
+    body.removeAttribute('data-ds-dark-theme')
+    return { darkBodyBg: bg, darkSidebarBg: sidebar }
+  })()`
+  const dark = await send('Runtime.evaluate', { expression: darkExpr, returnByValue: true })
+  const darkV = dark.result.value
+  console.log('\n--- dark theme spot check ---')
+  console.log(JSON.stringify(darkV, null, 2))
+  const isDark = c => {
+    const m = /rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/.exec(c || '')
+    if (!m) return false
+    const [r2, g2, b2] = [Number(m[1]), Number(m[2]), Number(m[3])]
+    return r2 + g2 + b2 < 400 // composite luminance gate: dark surface
+  }
+  if (!isDark(darkV.darkBodyBg)) console.log('DARK WARN: body background not dark under data-ds-dark-theme')
+  if (darkV.darkSidebarBg && darkV.darkSidebarBg !== 'rgba(0, 0, 0, 0)' && !isDark(darkV.darkSidebarBg)) {
+    console.log('DARK WARN: sidebar background not dark under data-ds-dark-theme')
+  }
+
   console.log('\n--- network (gandalf) ---')
   console.log(netLogs.length ? netLogs.join('\n') : '(no gandalf network traffic)')
   console.log('\n--- console / errors ---')

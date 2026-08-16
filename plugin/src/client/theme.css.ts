@@ -1,10 +1,9 @@
 /**
- * Gandalf theme — injected global style layer (最终版).
+ * Gandalf theme — injected global style layer (v11: 浅色/深色双主题适配).
  *
- * 2026-08-14 用户最终拍板：界面配色回 DSH 默认，只保留定制：
- * ① 甘道夫朝阳背景图（原图直出、无遮罩无染色）
- * ② 全局字体（霞鹭文楷等宽本地 + Cinzel 英文，走 --dsw-font-family）
- * ③ 布局/控件微调（消息左对齐、气泡卡片、面板加深、图标替换）
+ * 2026-08-16 用户拍板：背景图 + 霞鹭文楷等宽字体 + 中土风控件定制。
+ * 浅色主题：面板半透明让背景图透出；深色主题：表面用 DSH 深色调色板
+ * 实色（背景图半透明保留氛围），文字沿用 DSH 深色主题默认色。
  */
 import { BG_IMAGE } from './assets.generated.ts'
 
@@ -24,7 +23,7 @@ body {
 /* ============ 2. 字体 ============ */
 
 /* 全局字体由 --dsw-font-family token 驱动（见 tokens.ts）：中文走霞鹭
-   文楷等宽（本地），代码区保持 DSH 默认等宽。Cinzel 已按用户要求移除。 */
+   文楷等宽（本地），代码区保持 DSH 默认等宽。 */
 
 /* ============ 3. 布局 ============ */
 
@@ -43,7 +42,7 @@ body {
 
 /* AI 消息气泡卡片（白色遮罩） */
 [class*='flowItem'] {
-  background: rgb(255, 255, 255) !important;
+  background: var(--dsw-static-neutral-bluish-00) !important;
   border: 1px solid rgba(0, 0, 0, 0.12) !important;
   border-radius: 14px !important;
   padding: 10px 14px !important;
@@ -65,7 +64,7 @@ body {
 
 /* "回到底部"按钮：白色背景（浅色主题） */
 [class*='toBottom'] {
-  background: rgb(255, 255, 255) !important;
+  background: var(--dsw-static-neutral-bluish-00) !important;
 }
 
 /* 新会话按钮：透明底 + 白字 + 细边框 */
@@ -77,13 +76,13 @@ body {
 
 /* 设置面板：深色实底（原来是近透明） */
 [class*='panel'] {
-  background: rgb(255, 255, 255) !important;
+  background: var(--dsw-static-neutral-bluish-00) !important;
 }
 
 /* 发送按钮（输入区内）：五芒星图标（自制 SVG mask，居中）+ 深色底。
    限定 composer 容器——选择框等其它 primary 按钮保持 DSH 默认。 */
 [class*='composer'] [class*='primary'] {
-  background: rgb(255, 255, 255) !important;
+  background: var(--dsw-static-neutral-bluish-00) !important;
   color: #111111 !important;
   border: 1px solid rgba(0, 0, 0, 0.18) !important;
   position: relative !important;
@@ -107,40 +106,42 @@ body {
 /* ============ 5. 深色主题适配（body[data-ds-dark-theme]） ============ */
 /* 浅色设计把面板钉成白色、背景设为透明；切到 DSH 深色主题时文字自动变白，
    会落到白色面板上不可读。这里在深色主题下把表面改为 DSH 深色调色板实色，
-   文字沿用深色主题的浅色文字，保证对比度；背景图在深色下以半透明保留氛围。 */
+   文字沿用深色主题的浅色文字，保证对比度；背景图在深色下以半透明保留氛围。
+   颜色引用 DSH 静态 token（--dsw-static-neutral-bluish-*），DSH 升级调色板
+   时自动跟随。 */
 body[data-ds-dark-theme] {
-  --dsw-alias-bg-base: rgba(21, 21, 23, 0.5) !important;
-  --dsw-alias-bg-layer-1: rgba(35, 35, 36, 0.55) !important;
-  --dsw-alias-bg-layer-2: rgb(44, 44, 46) !important;
-  --dsw-alias-bg-layer-3: rgb(53, 54, 56) !important;
-  --dsw-alias-bg-module-platform: rgb(53, 54, 56) !important;
-  --dsw-alias-bg-multi-select: rgb(33, 33, 35) !important;
-  --dsw-alias-bg-overlay: rgb(67, 69, 74) !important;
-  --dsw-alias-separator-primary: rgb(129, 133, 140) !important;
-  --dsw-specific-bubble: rgb(44, 44, 46) !important;
-  --dsw-specific-bubble-highlight: rgb(53, 54, 56) !important;
-  --dsw-specific-input-major: rgb(35, 35, 36) !important;
-  --dsw-specific-login-input: rgb(27, 27, 28) !important;
-  --dsw-specific-menu: rgb(53, 54, 56) !important;
-  --dsw-specific-selector: rgb(53, 54, 56) !important;
-  --dsw-specific-sidebar-fill: rgba(27, 27, 28, 0.55) !important;
-  --dsw-specific-sidebar-nav-item-active: rgb(44, 44, 46) !important;
-  --dsw-specific-sidebar-nav-item-hover: rgb(35, 35, 36) !important;
-  --dsw-specific-tip: rgb(53, 54, 56) !important;
-  --dsw-alias-markdown-code-block: rgb(27, 27, 28) !important;
-  --dsw-alias-markdown-code-block-banner: rgb(35, 35, 36) !important;
-  --dsw-alias-markdown-inline-code: rgb(53, 54, 56) !important;
-  --dsw-alias-markdown-citation: rgb(44, 44, 46) !important;
-  --dsw-alias-markdown-placeholder: rgb(35, 35, 36) !important;
-  --dsw-alias-markdown-tag: rgb(44, 44, 46) !important;
+  --dsw-alias-bg-base: color-mix(in srgb, var(--dsw-static-neutral-bluish-950) 50%, transparent) !important;
+  --dsw-alias-bg-layer-1: color-mix(in srgb, var(--dsw-static-neutral-bluish-875) 55%, transparent) !important;
+  --dsw-alias-bg-layer-2: var(--dsw-static-neutral-bluish-850) !important;
+  --dsw-alias-bg-layer-3: var(--dsw-static-neutral-bluish-800) !important;
+  --dsw-alias-bg-module-platform: var(--dsw-static-neutral-bluish-800) !important;
+  --dsw-alias-bg-multi-select: var(--dsw-static-neutral-850) !important;
+  --dsw-alias-bg-overlay: var(--dsw-static-neutral-bluish-750) !important;
+  --dsw-alias-separator-primary: var(--dsw-static-neutral-bluish-600) !important;
+  --dsw-specific-bubble: var(--dsw-static-neutral-bluish-850) !important;
+  --dsw-specific-bubble-highlight: var(--dsw-static-neutral-bluish-800) !important;
+  --dsw-specific-input-major: var(--dsw-static-neutral-bluish-875) !important;
+  --dsw-specific-login-input: var(--dsw-static-neutral-bluish-900) !important;
+  --dsw-specific-menu: var(--dsw-static-neutral-bluish-800) !important;
+  --dsw-specific-selector: var(--dsw-static-neutral-bluish-800) !important;
+  --dsw-specific-sidebar-fill: color-mix(in srgb, var(--dsw-static-neutral-bluish-900) 55%, transparent) !important;
+  --dsw-specific-sidebar-nav-item-active: var(--dsw-static-neutral-bluish-850) !important;
+  --dsw-specific-sidebar-nav-item-hover: var(--dsw-static-neutral-bluish-875) !important;
+  --dsw-specific-tip: var(--dsw-static-neutral-bluish-800) !important;
+  --dsw-alias-markdown-code-block: var(--dsw-static-neutral-bluish-900) !important;
+  --dsw-alias-markdown-code-block-banner: var(--dsw-static-neutral-bluish-875) !important;
+  --dsw-alias-markdown-inline-code: var(--dsw-static-neutral-bluish-800) !important;
+  --dsw-alias-markdown-citation: var(--dsw-static-neutral-bluish-850) !important;
+  --dsw-alias-markdown-placeholder: var(--dsw-static-neutral-bluish-875) !important;
+  --dsw-alias-markdown-tag: var(--dsw-static-neutral-bluish-850) !important;
 }
 
 /* 硬编码白色表面在深色下改深色底（仅 AI 消息气泡；用户消息保持 DSH 默认） */
 body[data-ds-dark-theme] [class*='panel'] {
-  background: rgb(35, 35, 36) !important;
+  background: var(--dsw-static-neutral-bluish-875) !important;
 }
 body[data-ds-dark-theme] [class*='flowItem']:not(:has([class*='userRow'])) {
-  background: rgb(44, 44, 46) !important;
+  background: var(--dsw-static-neutral-bluish-850) !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 /* 用户消息气泡：深色下保持 DSH 默认（透明、无遮罩），与浅色一致 */
@@ -152,25 +153,18 @@ body[data-ds-dark-theme] [class*='flowItem']:has([class*='userRow']) {
   align-self: stretch !important;
 }
 body[data-ds-dark-theme] [class*='toBottom'] {
-  background: rgb(44, 44, 46) !important;
+  background: var(--dsw-static-neutral-bluish-850) !important;
 }
 body[data-ds-dark-theme] [class*='newSession'] {
-  color: rgb(249, 250, 251) !important;
+  color: var(--dsw-static-neutral-bluish-50) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
 }
 body[data-ds-dark-theme] [class*='brand'] {
-  color: rgb(249, 250, 251) !important;
+  color: var(--dsw-static-neutral-bluish-50) !important;
 }
 body[data-ds-dark-theme] [class*='composer'] [class*='primary'] {
-  background: rgb(44, 44, 46) !important;
-  color: rgb(249, 250, 251) !important;
+  background: var(--dsw-static-neutral-bluish-850) !important;
+  color: var(--dsw-static-neutral-bluish-50) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
 }
-
 `
-
-
-
-
-
-

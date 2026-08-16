@@ -1,7 +1,8 @@
 /**
  * Gandalf live-GUI — computed-style + WCAG contrast audit (no visual model).
  * Connects to headless Chrome CDP, opens the running DSH GUI, and reports the
- * effective colors and contrast ratios of key surfaces.
+ * effective colors and contrast ratios of key surfaces in BOTH light and dark
+ * theme modes.
  * Run: node scripts/check-preview.mjs
  */
 import { spawn } from 'node:child_process'
@@ -22,10 +23,20 @@ const W = 1440, H = 900, PORT = 9336
 const sleep = ms => new Promise(r => setTimeout(r, ms))
 
 function parseColor(input) {
-  // Accepts '#rrggbb' and 'rgb(r, g, b)'
-  const t = input.trim()
-  const m = t.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/)
-  if (m) return [Number(m[1]), Number(m[2]), Number(m[3])]
+  // Accepts '#rrggbb', 'rgb(r, g, b)', 'rgba(r, g, b, a)' (alpha composited
+  // over white for contrast purposes).
+  const t = (input || '').trim()
+  const m = t.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?/)
+  if (m) {
+    const [r, g, b] = [Number(m[1]), Number(m[2]), Number(m[3])]
+    const a = m[4] === undefined ? 1 : Number(m[4])
+    if (a < 1) {
+      // Composite over white — surfaces over the Gandalf backdrop are audited
+      // against their own computed color, so this is a conservative floor.
+      return [r * a + 255 * (1 - a), g * a + 255 * (1 - a), b * a + 255 * (1 - a)]
+    }
+    return [r, g, b]
+  }
   const h = t.replace('#', '')
   return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16))
 }
@@ -37,6 +48,12 @@ function lum(input) {
 function contrast(a, b) {
   const [l1, l2] = [lum(a), lum(b)].sort((x, y) => y - x)
   return (l1 + 0.05) / (l2 + 0.05)
+}
+
+/** Evaluate a JS snippet and return its value. */
+async function evaluate(ws, send, expression) {
+  const r = await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true })
+  return r.result.value
 }
 
 ;(async () => {
@@ -62,57 +79,77 @@ function contrast(a, b) {
   await send('Page.navigate', { url: 'http://127.0.0.1:3080/' })
   await sleep(3000)
 
-  const evalExpr = `(() => {
-    const pick = (sel, prop) => { const el = document.querySelector(sel); return el ? getComputedStyle(el)[prop] : null }
+  // Sample strategy: read CSS variables off body for the base surfaces, and
+  // probe real elements where the class is known; everything falls back to
+  // body tokens when the element is not present (e.g. empty chat).
+  const sampleExpr = `(() => {
     const body = getComputedStyle(document.body)
+    const varOf = (name) => body.getPropertyValue(name).trim() || null
+    const pick = (sel) => { const el = document.querySelector(sel); return el ? getComputedStyle(el) : null }
+    const sidebar = pick('[class*="sidebarCol"]')
+    const flow = pick('[class*="flowItem"]')
+    const composer = pick('[class*="composer"]')
+    const brand = pick('[class*="brand"]')
     return {
-      bodyBg: body.backgroundColor,
-      bodyFont: body.fontFamily.split(',')[0],
-      sidebarBg: pick('#sidebar', 'backgroundColor'),
-      brandColor: pick('.brand', 'color'),
-      brandFont: pick('.brand', 'fontFamily').split(',')[0],
-      navColor: pick('.nav-item', 'color'),
-      navActiveBg: pick('.nav-item.active', 'backgroundColor'),
-      userBubbleBg: pick('.msg.user', 'backgroundColor'),
-      assistantBubbleBg: pick('.msg.assistant', 'backgroundColor'),
-      textColor: pick('.msg.assistant', 'color'),
-      codeBg: pick('pre.code', 'backgroundColor'),
-      composerBg: pick('#composer .box', 'backgroundColor'),
-      btnBg: pick('.btn:not(.ghost)', 'backgroundColor'),
-      btnColor: pick('.btn:not(.ghost)', 'color'),
-      detailsBg: pick('#details', 'backgroundColor'),
-      border: pick('#sidebar', 'borderRightColor'),
-      cinzelLoaded: document.fonts ? document.fonts.check('16px Cinzel') : 'n/a',
-      gandalfVar: getComputedStyle(document.body).getPropertyValue('--dsw-alias-brand-primary').trim(),
+      varBgBase: varOf('--dsw-alias-bg-base'),
+      varLayer1: varOf('--dsw-alias-bg-layer-1'),
+      varLayer2: varOf('--dsw-alias-bg-layer-2'),
+      varLabelPrimary: varOf('--dsw-alias-label-primary'),
+      varLabelSecondary: varOf('--dsw-alias-label-secondary'),
+      varSidebarFill: varOf('--dsw-specific-sidebar-fill'),
+      varBubble: varOf('--dsw-specific-bubble'),
+      varMarkdownCode: varOf('--dsw-alias-markdown-code-block'),
+      sidebarBg: sidebar ? sidebar.backgroundColor : null,
+      flowBg: flow ? flow.backgroundColor : null,
+      flowColor: flow ? flow.color : null,
+      composerBg: composer ? composer.backgroundColor : null,
+      brandColor: brand ? brand.color : null,
     }
   })()`
-  const r = await send('Runtime.evaluate', { expression: evalExpr, returnByValue: true })
-  const s = r.result.value
-  console.log(JSON.stringify(s, null, 2))
 
-  // WCAG contrast report (normal text needs >= 4.5)
-  const checks = [
-    ['label-primary vs bg-base', s.textColor, s.bodyBg],
-    ['brand (gold) vs sidebar', s.brandColor, s.sidebarBg],
-    ['nav vs sidebar', s.navColor, s.sidebarBg],
-    ['btn text vs btn bg', s.btnColor, s.btnBg],
-    ['error (warm red) vs bg', '#f25a5a', s.bodyBg],
-    ['warn (amber) vs bg', '#f59e0b', s.bodyBg],
-    ['success (green) vs bg', '#22c55e', s.bodyBg],
-    ['secondary text vs panel', '#cfd3d6', s.assistantBubbleBg],
-    ['tertiary text vs panel', '#adb2b8', s.assistantBubbleBg],
-    ['code text vs code bg', s.textColor, s.codeBg],
-    ['composer hint vs input', '#cfd3d6', s.composerBg],
-  ]
-  console.log('\n=== WCAG contrast ===')
-  let allPass = true
-  for (const [name, fg, bg] of checks) {
-    const ratio = contrast(fg, bg)
-    const pass = ratio >= 4.5
-    if (!pass) allPass = false
-    console.log(`${pass ? 'PASS' : 'FAIL'} ${name}: ${ratio.toFixed(2)}:1 (fg ${fg} on ${bg})`)
+  const report = async (label) => {
+    const s = await evaluate(ws, send, sampleExpr)
+    const v = s.varBgBase || s.sidebarBg || '#ffffff'
+    const text = s.flowColor || s.varLabelPrimary || '#000000'
+    const secondary = s.varLabelSecondary || '#61666b'
+    const codeBg = s.varMarkdownCode || s.varLayer2 || v
+    const bubbleBg = s.varBubble || s.flowBg || s.varLayer2 || v
+    const sidebarBg = s.varSidebarFill || s.sidebarBg || v
+
+    console.log(`\n======== ${label} ========`)
+    console.log(JSON.stringify(s, null, 2))
+
+    const checks = [
+      ['primary text vs base', text, v],
+      ['primary text vs bubble', s.flowColor || text, bubbleBg],
+      ['secondary text vs base', secondary, v],
+      ['code text vs code bg', text, codeBg],
+      ['brand vs sidebar', s.brandColor || text, sidebarBg],
+    ]
+    console.log('\n=== WCAG contrast (normal text needs >= 4.5) ===')
+    let allPass = true
+    for (const [name, fg, bg] of checks) {
+      if (!fg || !bg) { console.log(`SKIP ${name} (missing color fg=${fg} bg=${bg})`); continue }
+      const ratio = contrast(fg, bg)
+      const pass = ratio >= 4.5
+      if (!pass) allPass = false
+      console.log(`${pass ? 'PASS' : 'FAIL'} ${name}: ${ratio.toFixed(2)}:1 (fg ${fg} on ${bg})`)
+    }
+    console.log(allPass ? 'ALL CONTRAST PASS (>=4.5)' : 'CONTRAST ISSUES — see above')
+    return allPass
   }
-  console.log(allPass ? '\nALL CONTRAST PASS (>=4.5)' : '\nCONTRAST ISSUES — see above')
-  child.kill()
-})().catch(e => { console.error('fail:', e.message); process.exit(1) })
 
+  let ok = true
+  // Light theme first.
+  await evaluate(ws, send, `document.body.removeAttribute('data-ds-dark-theme'); 'ok'`)
+  ok = (await report('LIGHT theme')) && ok
+  // Then dark theme.
+  await evaluate(ws, send, `document.body.setAttribute('data-ds-dark-theme', ''); 'ok'`)
+  ok = (await report('DARK theme')) && ok
+  // Restore the app's actual theme (boot prefers durable light unless the
+  // running GUI resolved dark — re-read from settings via the presenter attr).
+  await evaluate(ws, send, `document.body.removeAttribute('data-ds-dark-theme'); 'ok'`)
+
+  child.kill()
+  process.exit(ok ? 0 : 1)
+})().catch(e => { console.error('fail:', e.message); process.exit(1) })

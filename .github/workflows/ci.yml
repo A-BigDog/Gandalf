@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # tsdown builds the plugin; peer deps (cordis/runtime) are externals in
+      # the bundle, so npx fetches the build tool without installing peers.
+      - name: Build plugin
+        run: npx --yes tsdown@0.22.2
+        working-directory: plugin
+
+      - name: Smoke test
+        run: node tests/smoke.test.mjs
+        working-directory: plugin
+
+      - name: Verify built bundle has no stale hardcoded white surfaces
+        run: node -e "
+          const fs = require('fs');
+          const js = fs.readFileSync('lib/client.js', 'utf8');
+          if (!js.includes('data-ds-dark-theme')) throw new Error('missing dark adapter');
+          if (js.includes('rgb(255, 255, 255)')) throw new Error('bundle still has hardcoded white surfaces');
+          console.log('bundle dark-adapter check OK');
+        "
+        working-directory: plugin

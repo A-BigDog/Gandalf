@@ -16,7 +16,7 @@
 - **字体**：全局统一——**霞鹭文楷等宽**（本地安装，OFL 开源，零网络依赖）；**字色用 DSH 默认**
 - **消息流**：靠左对齐；AI 消息为**圆角气泡卡片**，你的消息保持 DSH 默认
 - **控件定制**：「新会话」透明底、「回到底部」透明、发送按钮五芒星图标（自制 SVG）、设置面板/选择框背景可调
-- **配色**：**浅色主题**（白色面板半透明 + 背景图透出；字色 DSH 默认）——主题仍在迭代中
+- **配色**：浅色/深色双主题适配——浅色为白色半透明面板 + 背景图透出；深色为 DSH 深色调色板实色表面（背景图以半透明保留氛围），文字沿用 DSH 各主题默认色
 - **自动生效**：插件加载即套用，卸载恢复默认
 - **可读性**：WCAG AA 对比度 11/11 全过、bundle ~406KB（预算 1MB 内）
 
@@ -68,6 +68,7 @@ pnpm dsh web --patch <你的Gandalf仓库绝对路径>/plugin/cordis.yml
 | 想改什么 | 改哪里 |
 |---|---|
 | 面板透明度（背景透出程度） | `src/client/tokens.ts`（29 个覆盖：表面透明度 + 文字 + 字体，改表不改代码） |
+| 深色主题表面颜色/背景图透出度 | `src/client/theme.css.ts`（`body[data-ds-dark-theme]` 块，改数值即可） |
 | 背景图/字体/样式 | `src/client/theme.css.ts`（注入 CSS 层） |
 | 素材（换背景图/字体） | `assets/` → `node scripts/embed-assets.mjs` 重新内联 |
 | 冒烟测试 | `node tests/smoke.test.mjs` |
@@ -87,6 +88,8 @@ pnpm dsh web --patch <你的Gandalf仓库绝对路径>/plugin/cordis.yml
 ## ⚠️ 注意事项
 
 - 只覆盖面板表面透明度（取 DSH 默认暗色值 + alpha），不覆盖任何主题颜色
+- 深色主题（`body[data-ds-dark-theme]`）单独有一套表面覆盖：面板/气泡/输入框用 DSH 深色调色板实色，背景层半透明保留背景图氛围——改 `theme.css.ts` 深色块的数值即可
+- 用户消息气泡（`:has([class*='userRow'])`）始终保持 DSH 默认，深色下同样不被覆盖
 - 组件类名是 CSS Module hash——装饰选择器用 `[class*='local名']` 模糊匹配，真机验证为准
 - 插件是纯 CSS 注入（零服务依赖），不调用 theme 服务——卸载自动恢复默认
 

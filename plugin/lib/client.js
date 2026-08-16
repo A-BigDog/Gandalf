@@ -139,6 +139,69 @@ body {
   mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Cpath d='M8 1 L9.8 6.2 L15.2 6.4 L10.9 9.7 L12.4 15 L8 11.6 L3.6 15 L5.1 9.7 L0.8 6.4 L6.2 6.2 Z'/%3E%3C/svg%3E") center/contain no-repeat;
 }
 
+/* ============ 5. 深色主题适配（body[data-ds-dark-theme]） ============ */
+/* 浅色设计把面板钉成白色、背景设为透明；切到 DSH 深色主题时文字自动变白，
+   会落到白色面板上不可读。这里在深色主题下把表面改为 DSH 深色调色板实色，
+   文字沿用深色主题的浅色文字，保证对比度；背景图在深色下以半透明保留氛围。 */
+body[data-ds-dark-theme] {
+  --dsw-alias-bg-base: rgba(21, 21, 23, 0.5) !important;
+  --dsw-alias-bg-layer-1: rgba(35, 35, 36, 0.55) !important;
+  --dsw-alias-bg-layer-2: rgb(44, 44, 46) !important;
+  --dsw-alias-bg-layer-3: rgb(53, 54, 56) !important;
+  --dsw-alias-bg-module-platform: rgb(53, 54, 56) !important;
+  --dsw-alias-bg-multi-select: rgb(33, 33, 35) !important;
+  --dsw-alias-bg-overlay: rgb(67, 69, 74) !important;
+  --dsw-alias-separator-primary: rgb(129, 133, 140) !important;
+  --dsw-specific-bubble: rgb(44, 44, 46) !important;
+  --dsw-specific-bubble-highlight: rgb(53, 54, 56) !important;
+  --dsw-specific-input-major: rgb(35, 35, 36) !important;
+  --dsw-specific-login-input: rgb(27, 27, 28) !important;
+  --dsw-specific-menu: rgb(53, 54, 56) !important;
+  --dsw-specific-selector: rgb(53, 54, 56) !important;
+  --dsw-specific-sidebar-fill: rgba(27, 27, 28, 0.55) !important;
+  --dsw-specific-sidebar-nav-item-active: rgb(44, 44, 46) !important;
+  --dsw-specific-sidebar-nav-item-hover: rgb(35, 35, 36) !important;
+  --dsw-specific-tip: rgb(53, 54, 56) !important;
+  --dsw-alias-markdown-code-block: rgb(27, 27, 28) !important;
+  --dsw-alias-markdown-code-block-banner: rgb(35, 35, 36) !important;
+  --dsw-alias-markdown-inline-code: rgb(53, 54, 56) !important;
+  --dsw-alias-markdown-citation: rgb(44, 44, 46) !important;
+  --dsw-alias-markdown-placeholder: rgb(35, 35, 36) !important;
+  --dsw-alias-markdown-tag: rgb(44, 44, 46) !important;
+}
+
+/* 硬编码白色表面在深色下改深色底（仅 AI 消息气泡；用户消息保持 DSH 默认） */
+body[data-ds-dark-theme] [class*='panel'] {
+  background: rgb(35, 35, 36) !important;
+}
+body[data-ds-dark-theme] [class*='flowItem']:not(:has([class*='userRow'])) {
+  background: rgb(44, 44, 46) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+/* 用户消息气泡：深色下保持 DSH 默认（透明、无遮罩），与浅色一致 */
+body[data-ds-dark-theme] [class*='flowItem']:has([class*='userRow']) {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  align-self: stretch !important;
+}
+body[data-ds-dark-theme] [class*='toBottom'] {
+  background: rgb(44, 44, 46) !important;
+}
+body[data-ds-dark-theme] [class*='newSession'] {
+  color: rgb(249, 250, 251) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+body[data-ds-dark-theme] [class*='brand'] {
+  color: rgb(249, 250, 251) !important;
+}
+body[data-ds-dark-theme] [class*='composer'] [class*='primary'] {
+  background: rgb(44, 44, 46) !important;
+  color: rgb(249, 250, 251) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
 `;
 		//#endregion
 		//#region src/client/index.ts
